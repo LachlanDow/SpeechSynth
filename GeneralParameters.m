@@ -5,6 +5,7 @@ classdef GeneralParameters
     properties
         sampleRate
         glottalSourceType
+        maxOralFormants = 6;
     end
     
     methods
