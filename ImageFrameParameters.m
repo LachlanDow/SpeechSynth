@@ -9,7 +9,7 @@ classdef ImageFrameParamters
    openPhaseRatio
    brethinessDb
    tiltDb
-   gainDg
+   gainDb
    agcRmsLevel
    NasalFormatFrequency
    NasalFormantBW
