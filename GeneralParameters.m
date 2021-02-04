@@ -3,16 +3,16 @@ classdef GeneralParameters
     %   Detailed explanation goes here
     
     properties
-        sampleRate
+        maxOralFormants = 6;
         glottalSourceType
-        maxOralFormants
+        sampleRate
     end
     
     methods
-        function obj = GeneralParamters(inputArg1,inputArg2)
+        function obj = GeneralParamters(obj)
             %UNTITLED2 Construct an instance of this class
             %   Detailed explanation goes here
-            obj.Property1 = inputArg1 + inputArg2;
+           obj.maxOralFormants = 6;
         end
         
         function outputArg = method1(obj,inputArg)
