@@ -13,7 +13,7 @@ classdef AntiResinator
     end
     
     methods
-       function obj = Resonator(sample_rate)
+       function obj = AntiResonator(sample_rate)
             obj.sample_rate = sample_rate;
             obj.y1=0;
             obj.y2=0;
