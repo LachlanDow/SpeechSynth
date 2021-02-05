@@ -29,15 +29,17 @@ classdef NaturalGlottalSource
             obj.positionInPeriod = 0;
         end
         
-        function obj = getNext(obj)
+        function [obj, x] = getNext(obj)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
             if (obj.positionInPeriod + 1 >= obj.openPhaseLength) 
                 obj.x = 0;
             else
                 obj.a = obj.a + obj.b;
-                obj.x = obj.x + obj.a;     
+                obj.x = obj.x + obj.a;   
+                x = obj.x;
             end 
+            disp("worked")
        end
     end
 end
