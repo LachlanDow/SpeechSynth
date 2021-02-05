@@ -6,6 +6,7 @@ classdef ImpulsiveGlottalSource
         sampleRate
         resonator
         positionInPeriod
+        
     end
     
     methods
@@ -26,7 +27,7 @@ classdef ImpulsiveGlottalSource
             
         end
         
-        function [obj,y] =getNext(obj)
+        function [obj,y] = getNext(obj)
            if obj.positionInPeriod == 1
                pulse = 1;
            elseif obj.positionInPeriod == 2
@@ -37,6 +38,8 @@ classdef ImpulsiveGlottalSource
            
            obj.positionInPeriod = obj.positionInPeriod + 1;
            [obj.resonator,y] = obj.resonator.step(pulse);
+           
+           
         end
         
            
