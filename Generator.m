@@ -13,6 +13,7 @@ classdef Generator
         outputLpFilter
         flutterTimeOffset
         
+        x
         
         %Glottal Sources
         IGS %Impulsive GLottal Source
@@ -48,7 +49,7 @@ classdef Generator
             obj.flutterTimeOffset = Resonator(mainParms.sampleRate);
             obj.outputLpFilter = Resonator(mainParms.sampleRate);
             obj.outputLpFilter = obj.outputLpFilter.set(0,mainParms.sampleRate/2,1);
-            obj.initGlottalSource()
+            obj = obj.initGlottalSource();
             
             obj.ASC = LpNoiseSource(mainParms.sampleRate);
             obj.ASP = LpNoiseSource(mainParms.sampleRate);
@@ -81,7 +82,7 @@ classdef Generator
             
             while outPos < outBuf.length
                 if (obj.pState ~= PeriodState || obj.pState.positionInPeriod >= obj.pState.periodLength)
-                    obj.stertNewPeriod()
+                    obj = obj.startNewPeriod();
                 end
           
            outBuf(outPos) = obj.computeNextOutputSignalSample();
@@ -93,13 +94,59 @@ classdef Generator
            end   
         end
         
-        function obj = computeNectOutputSignalSample(obj)
-            
+        
+        function [obj,out] = computeNextOutputSignalSample(obj)
+             fParmsIn = obj.fParms;
+             fStateIn = obj.fState;
+             pStateIn = obj.pState;
+             
+             voice = obj.glottalSource;
+             
+             voice = this.tiltFilter.step(voice);
+             if(pStateIn.positioninPeriod < pState.openPhaseLength)
+                 voice = voice + getWhiteNOice() * fState.breinessLin
+             end
+             
+             if(fParmsIn.cascadeEnabled == true)
+                 cascadeOut = obj.computeCascadeBranch(voice);
+             else
+                 cascadeOut = 0;
+             end
+             
+             if(fParmsIn.parallelEnabled == true)
+                 parallelOut = obj.computeCascadeBranch(voice);
+             else
+                 parallelOut = 0;
+             end
+             
+             out = cascadeOut+ parallelOut;
+             out = obj.outputLpFilter.step(out);
+             out = out * fStateIn.gainLin;
+             
         end
         
-        function obj = initGlottalSource()
-            
+        
+        
+        function [obj] = initGlottalSource(obj)
+            switch (obj.mParms.glottalSourceType)
+                case 'impulsive'
+                    obj.IGS = ImpulsiveGlottalSource(obj.mParms.sampleRate);
+                    obj.IGS = obj.IGS.startPeriod(1);
+                    [obj.IGS,obj.glottalSource] = obj.IGS.getNext();
+                    
+                case 'natural'
+                    obj.NGS = NaturalGlottalSource(obj.mParms.sampleRate);
+                    obj.NGS = obj.NGS.getNext();
+                    obj.glottalSource = obj.NGS.x;
+                case 'noise'
+                    obj.glottalSource = getWhiteNoise();
+                otherwise
+                    error("Undefined glottal source type")
+            end
         end
+        
+        
+        
     end
 end
 
