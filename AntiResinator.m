@@ -41,7 +41,7 @@ classdef AntiResinator
         end
         
         function obj = setPassthrough(obj)
-        obj.passthrough = flase;
+        obj.passthrough = false;
         obj.muted = true;
         obj.x1 = 0;
         obj.x2 = 0;
@@ -65,6 +65,18 @@ classdef AntiResinator
                x = [obj.a obj.b obj.c];
                y = 1;
             end
+        end
+        
+        function [obj,y] = step(obj,x)
+            if obj.passthrough == true
+                y = x;
+            elseif obj.muted == true
+                y = 0;
+            else 
+                y = obj.a * x + obj.b * obj.x1 + obj.c * obj.x2;
+                obj.x2 = obj.x1;
+                obj.x1 = x;
+            end       
         end
     end
 end

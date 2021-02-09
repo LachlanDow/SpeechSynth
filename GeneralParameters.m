@@ -4,8 +4,8 @@ classdef GeneralParameters
     
     properties
         maxOralFormants = 6;
-        glottalSourceType
-        sampleRate
+        glottalSourceType = GlottalSourceType.natural;
+        sampleRate = 44100;
     end
     
     methods
