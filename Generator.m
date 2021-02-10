@@ -202,7 +202,7 @@ classdef Generator
               obj.newFParms.f0 = 0;
               obj.startUsingNewFrameParameters();
           end 
-          debug = obj.pState
+         
           if (obj.pState.f0 == 0)
               obj.pState = CurrentFrameParameters();
           end
@@ -238,15 +238,24 @@ classdef Generator
             
             fStateIn.breathinessLin = dbToLin(fParmsIn.breathinessDb);
             fStateIn.gainLin = dbToLin(fParmsIn.gainDb || 0);
-          %  setTiltFilter(obj.tiltFilter,fParmsIn.tiltDb)
+            obj = obj.setTiltFilter(fParmsIn.tiltDb);
             
             fStateIn.cascadeVoicingLin = dbToLin(fParmsIn.cascadeVoicingDb);
             fStateIn.cascadeAspirationLin = dbToLin(fParmsIn.cascadeAspirationDb);
-            %setNasalFormantCasc(this.NFC,fParmsIn)
-            %setNasalAntiFormantCasc(obj.NAFC,fParmsIn)
-           % for i = (1: mParmsIn.maxOralFormants)
-             %   setOralFormantPar(obj.OFP(i), mParmsIn, fParmsIn, i)
-            %end
+            setNasalFormantCasc(this.NFC,fParmsIn)
+            setNasalAntiFormantCasc(obj.NAFC,fParmsIn)
+            for i = (1: mParmsIn.maxOralFormants)
+                obj = obj.setOralFormantCasc(mParmsIn, fParmsIn, i);
+            end
+            
+            fStateIn.parallelVoicingLin = dbToLin(obj.fParms.parallelVoicingDb);
+            fStateIn.parallelAspirationLin = dbToLin(obj.fParms.parallelAspirationDb);
+            fStateIn.FricationLin = dbToLin(obj.fParms.fricationDb);
+            fStateIn.parallelBypassLin = dbToLin(obj.fParms.parallelBypassDb);
+            setNasalFormantPar(obj.NFP, fParmsIn);
+             for i = (1: mParmsIn.maxOralFormants)
+                obj = obj.setOralFormantPar(mParmsIn, fParmsIn, i);
+            end
         end 
         
         function obj = initGlottalSource(obj)
@@ -302,32 +311,64 @@ classdef Generator
         end
         
         function obj = setOralFormantCasc(obj,fParms,i)
-            if i < fParms.oralFormantFreq.length
+            if i < length(fParms.oralFormantFreq)
                 f = fParms.oralFormantFreq(i);
             else
                 f = [];
             end
             
-            if i < fParms.oralFormantBw.length
-                Bw = fParms.oralFormantBw(i);
+            if i < length(fParms.oralFormantBW)
+                Bw = fParms.oralFormantBW(i);
             else
                 Bw = [];
             end
             
-            if( isempty(f) && is empty(Bw))
-                obj.OFB
-            
+            if( isempty(f) == 0  && isempty(Bw)== 0 )
+                obj.OFC(i) = obj.OFC(i).set(f,Bw,1);
+            else
+                obj.OFC(i) = obj.OFC(i).setPassthrough();
+            end
+        end
+        
+        function obj = setOralFormantPar(obj, mParms, fParms, i)
+                formant = i + 1;
+                if( i < length(fParms.oralFormantFreq))
+                    f = fParms.oralFormantFreq(i);
+                else
+                   f =[];
+                end
+                
+                if( i < length(fParms.oralFormantBW))
+                    bw = fParms.oralFormantBW(i);
+                else
+                   bw =[];
+                end
+                
+                if( i < length(fParms.oralFormantBW))
+                    db = fParms.oralFormantDb(i);
+                else
+                   db =[];
+                end
+                
+                peakGain = dbToLin(db);
+                
+                if(isempty(f) == 0 && isempty(bw) ==0 && isempty(peakGain) == 0)
+                    obj.OFP(i) = obj.OFP(i).set(f,bw,1);
+                w = 2 * pi / obj.mParms.sampleRate;
+                diffGain = sqrt(2-2 * cos(w));
+                    if(formant >= 2)
+                        filterGain = peakGain/diffGain;
+                    else
+                        filterGain = peakGain;
+                    end
+                obj.OFP = obj.OFP.adjustPeakGain(filterGain);   
+                else
+                    obj.OFP = obj.OFP.setMute();
+                end
+                
         end
         
         
-            
-            
-        
-        
-        
-        
-        
-            
     end
 end
 
