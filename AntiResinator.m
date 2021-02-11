@@ -13,12 +13,12 @@ classdef AntiResinator
     end
     
     methods
-       function obj = AntiResonator(sample_rate)
+       function obj = AntiResinator(sample_rate)
             obj.sample_rate = sample_rate;
-            obj.y1=0;
-            obj.y2=0;
+            obj.x1=0;
+            obj.x2=0;
             obj.passthrough = true;
-            obj.mute = false;
+            obj.muted = false;
         end
         
         function obj = set(obj,f,bw)
@@ -41,8 +41,8 @@ classdef AntiResinator
         end
         
         function obj = setPassthrough(obj)
-        obj.passthrough = false;
-        obj.muted = true;
+        obj.passthrough = true;
+        obj.muted = false;
         obj.x1 = 0;
         obj.x2 = 0;
         end

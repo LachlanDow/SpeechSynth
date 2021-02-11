@@ -55,9 +55,8 @@ classdef Generator
             obj.ASP = LpNoiseSource(mainParms.sampleRate);
             obj.FSP = LpNoiseSource(mainParms.sampleRate);
             
-            disp(mainParms.sampleRate)
             obj.NFC = Resonator(mainParms.sampleRate);
-            obj.NAFC = AntiResinator(mainParms.sampleRate);
+            obj.NAFC = AntiResinator();
             obj.OFC = Resonator(mainParms.sampleRate);
             
             for i = 1:mainParms.maxOralFormants
@@ -82,18 +81,16 @@ classdef Generator
             outPos = 1;
             outArr = outBuf;
             
-            while (outPos < length(outArr)+1)
+            while outPos < length(outArr)
                 if (isempty(obj.pState.f0) || (obj.pState.positionInPeriod >= obj.pState.periodLength))
                     obj = obj.startNewPeriod();
                 end
-           [obj, outArr(outPos)] = obj.computeNextOutputSignalSample();
+           [obj, outArr] = obj.computeNextOutputSignalSample();
            obj.pState.positionInPeriod = obj.pState.positionInPeriod + 1;
            obj.absPosition = obj.absPosition + 1;
-           outPos = outPos + 1;       
-            end
-           
+           end
            if (isnumeric(obj.fParms.gainDb))
-             outArr =  obj.adjustSignalGain(outArr,obj.fParms.agcRmsLevel);
+            adjustSignalGain(outArr,obj.fParms.agcRmsLevel)
            end   
         end
         
@@ -124,7 +121,11 @@ classdef Generator
              
         end
         
-        function [obj,v] = computeCascadeBranch(obj,voice)          
+        function [obj,v] = computeCascadeBranch(obj,voice)
+             obj.fParms = obj.fParms;
+             obj.fState = obj.fState;
+             obj.pState = obj.pState;
+             
              cascadeVoice = voice * obj.fState.cascadeVoicingLin;
              
              if (obj.pState.positionInPeriod >= obj.pState.periodLength / 2) 
@@ -284,7 +285,7 @@ classdef Generator
         end
         
         function obj = setTiltFilter(obj,tiltDb)
-           obj.tiltFilter =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
+           obj.NFC =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
         end
         
         function obj = setNasalFormantCasc(obj,fParms)
@@ -373,7 +374,7 @@ classdef Generator
             end
         end
         
-        function buf = adjustSignalGain(obj,buf, targetRms)
+        function buf = adjustSignalGain(buf, targetRms)
          n = length(buf);
          rms = computeRms(buf);
             if (isempty(n) ==1)

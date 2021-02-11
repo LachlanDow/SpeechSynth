@@ -26,7 +26,7 @@ classdef NaturalGlottalSource
             bTemp = -amplification / number ^ 2;
             obj.b = bTemp;
             obj.a = - bTemp * number / 3;
-            obj.positionInPeriod = 0;
+            obj.positionInPeriod = 1;
         end
         
         function [obj, x] = getNext(obj)

@@ -22,11 +22,11 @@ classdef LpNoiseSource
             
         end
         
-        function outputValue = getNext(obj)
+        function [obj,outputValue] = getNext(obj)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
             x = getWhiteNoise();
-            outputValue = obj.lpFilter.step(x);
+            [obj.lpFilter,outputValue] = obj.lpFilter.step(x);
             
         end
     end

@@ -50,8 +50,11 @@ classdef Resonator
         function obj = adjustPeakGain(obj,peakGain)
             if(peakGain <= 0)
                 error("Problem")
+            else
+               
+                obj.a = peakGain * (1-obj.r);
             end
-            obj.a = peakGain * (1-obj.r);
+            
         end
         
         
@@ -70,9 +73,17 @@ classdef Resonator
         end
 
         function [obj, y] = step(obj,x)
+            if (obj.passthrough == 1)
+                y = x;
+            elseif (obj.muted == 1)
+                    y = 0;
+            else
+                    
             y = obj.a * x + obj.b * obj.y1 + obj.c * obj.y2;
             obj.y2 = obj.y1;
             obj.y1 = y;
+            end
+                
             
         end
     end

@@ -20,7 +20,7 @@ classdef FrameParms
    cascadeEnabled
    cascadeVoicingDb
    cascadeAspirationDb
-   cascadeAspitrationMod
+   cascadeAspirationMod
    nasalAntiformantFreq
    nasalAntiformantBW
    

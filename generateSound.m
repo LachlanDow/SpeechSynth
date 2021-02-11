@@ -1,7 +1,8 @@
 function outBuf = generateSound(mParms,fParmsA)
     generator = Generator(mParms);
-    disp(generator)
-
+   
+    
+    
     outBufLen = 0;
     for i = (1:length(fParmsA))
         fParms = fParmsA(i);
@@ -14,10 +15,8 @@ function outBuf = generateSound(mParms,fParmsA)
         frameLen = round(fParms.duration * mParms.sampleRate);
         frameBuf = outBuf(outBufPos:outBufPos + frameLen -1);
         
-        [generator,outBuf] = generator.generateFrame(fParms,frameBuf);
+       [generator,outBuf] = generator.generateFrame(fParms,frameBuf);
         outBufPos = outBufPos + frameLen;
     end
-    
-
 end
 
