@@ -4,9 +4,9 @@ classdef Generator
     
     properties
         mParms
-        fParms
-        newFParms
-        fState
+        fParms 
+        newFParms 
+        fState 
         pState = PeriodState;
         absPosition
         tiltFilter
@@ -16,8 +16,8 @@ classdef Generator
         
         
         %Glottal Sources
-        IGS %Impulsive GLottal Source
-        NGS %Natural Glottal source
+        IGS%Impulsive GLottal Source
+        NGS  %Natural Glottal source
         glottalSource %glottal Source
         
         %Noise Sources
@@ -34,8 +34,8 @@ classdef Generator
         
         %parallel variable
         NFP %nasal formant filter for the parallel branch
-        OFP %oral formant filters for parallel branch
-        DFP %differencing filter for the parallel branch
+        OFP  %oral formant filters for parallel branch
+        DFP  %differencing filter for the parallel branch
     end
     
     methods
@@ -44,7 +44,7 @@ classdef Generator
             %   Detailed explanation goes here
             obj.mParms = mainParms;
             obj.fState = CurrentFrameParameters;
-            obj.absPosition = 0;
+            obj.absPosition = 1;
             obj.tiltFilter = LpFilter1(mainParms.sampleRate);
             obj.flutterTimeOffset = rand(1,1) * 1000;
             obj.outputLpFilter = Resonator(mainParms.sampleRate);
@@ -55,14 +55,14 @@ classdef Generator
             obj.ASP = LpNoiseSource(mainParms.sampleRate);
             obj.FSP = LpNoiseSource(mainParms.sampleRate);
             
-            disp(mainParms.sampleRate)
+           
             obj.NFC = Resonator(mainParms.sampleRate);
             obj.NAFC = AntiResinator(mainParms.sampleRate);
             obj.OFC = Resonator(mainParms.sampleRate);
-            
             for i = 1:mainParms.maxOralFormants
                 obj.OFC(i) = Resonator(mainParms.sampleRate);
             end
+          
             
             obj.NFP = Resonator(mainParms.sampleRate);
             obj.OFP = Resonator(mainParms.sampleRate);
@@ -76,6 +76,8 @@ classdef Generator
         function [obj,outArr] = generateFrame(obj,fParmsIn,outBuf)
             %METHOD1 Summary of this method goes here
             %   Detailed explanation goes here
+            
+         
             
             obj.newFParms = fParmsIn;
             
@@ -92,7 +94,7 @@ classdef Generator
            outPos = outPos + 1;       
             end
            
-           if (isnumeric(obj.fParms.gainDb))
+           if (isnumeric(obj.fParms.gainDb) == 1)
              outArr =  obj.adjustSignalGain(outArr,obj.fParms.agcRmsLevel);
            end   
         end
@@ -257,13 +259,12 @@ classdef Generator
             switch (obj.mParms.glottalSourceType)
                 case 'impulsive'
                     obj.IGS = ImpulsiveGlottalSource(obj.mParms.sampleRate);
-                    obj.IGS = obj.IGS.startPeriod(1);
                     [obj.IGS,obj.glottalSource] = obj.IGS.getNext();
                     
                 case 'natural'
                     obj.NGS = NaturalGlottalSource(obj.mParms.sampleRate);
-                    obj.NGS = obj.NGS.getNext();
-                    obj.glottalSource = obj.NGS.x;
+                    [obj.NGS,x] = obj.NGS.getNext();
+                    obj.glottalSource = x;
                 case 'noise'
                     obj.glottalSource = getWhiteNoise();
                 otherwise
@@ -356,7 +357,6 @@ classdef Generator
                     else
                         filterGain = peakGain;
                     end
-                    disp("filter gain = "  + (filterGain));
                 obj.OFP(i) = obj.OFP(i).adjustPeakGain(filterGain);   
                 else
                     obj.OFP(i) = obj.OFP(i).setMute();
