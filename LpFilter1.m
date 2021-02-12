@@ -28,6 +28,9 @@ classdef LpFilter1
             %METHOD1 Summary of obj method goes here
             %   Detailed explanation goes here
             %extraGain should = 1 :) 
+            if (f <=0 || f >= obj.sampleRate / 2 || g <= 0 || g >=1 ||  isinf(f) || isinf(g) || isinf(extraGain) )
+                error("Invalid Filter Parametes")
+            end
             w = 2 * pi * f / obj.sampleRate;
             q = (1 - g ^ 2 * cos(w)) / (1 - g ^ 2);
             obj.b = q - sqrt(q ^ 2 - 1);
@@ -57,7 +60,7 @@ classdef LpFilter1
                y = 1;
             else 
                x = obj.a;
-               y = [1 -obj.a -obj.b];
+               y = [1 -obj.b];
             end
             
         end

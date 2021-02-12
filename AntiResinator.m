@@ -22,6 +22,9 @@ classdef AntiResinator
         end
         
         function obj = set(obj,f,bw)
+             if (f <=0 || f >= obj.sampleRate / 2 ||bw <=0 ||  isinf(f) || isinf(bw))
+                error("Invalid AntiResonator Parametes")
+            end
              r = exp(- pi * bw / obj.sample_rate);
              w = 2 * pi * f / obj.sample_rate;
              c0 = - (r * r);

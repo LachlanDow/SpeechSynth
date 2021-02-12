@@ -6,36 +6,36 @@ classdef Generator
         mParms
         fParms
         newFParms
-        fState
+        fState = I
         pState = PeriodState;
         absPosition
-        tiltFilter
-        outputLpFilter
+        tiltFilter = LpFilter1
+        outputLpFilter = Resonator;
         flutterTimeOffset
         
         
         
         %Glottal Sources
-        IGS %Impulsive GLottal Source
-        NGS %Natural Glottal source
+        IGS = ImpulsiveGlottalSource%Impulsive GLottal Source
+        NGS = NaturalGlottalSource %Natural Glottal source
         glottalSource %glottal Source
         
         %Noise Sources
-        ASC %aspiration in cascadebranch
-        ASP % aspiration in the parallel branch 
-        FSP % frication in parallel branch
+        ASC = LpNoiseSource; %aspiration in cascadebranch
+        ASP = LpNoiseSource; % aspiration in the parallel branch 
+        FSP = LpNoiseSource; % frication in parallel branch
         
         
         %cascade variables
-        NFC % nasal formant filter for cascade synth
-        NAFC% nasal antiformant filter for cascade synth
-        OFC % oral formant filter for cascade branch
+        NFC = Resonator; % nasal formant filter for cascade synth
+        NAFC = AntiResinator;% nasal antiformant filter for cascade synth
+        OFC = Resonator; % oral formant filter for cascade branch
         
         
         %parallel variable
-        NFP %nasal formant filter for the parallel branch
-        OFP %oral formant filters for parallel branch
-        DFP %differencing filter for the parallel branch
+        NFP = Resonator; %nasal formant filter for the parallel branch
+        OFP = Resonator; %oral formant filters for parallel branch
+        DFP = DifferencingFilter; %differencing filter for the parallel branch
     end
     
     methods
@@ -55,8 +55,9 @@ classdef Generator
             obj.ASP = LpNoiseSource(mainParms.sampleRate);
             obj.FSP = LpNoiseSource(mainParms.sampleRate);
             
+           
             obj.NFC = Resonator(mainParms.sampleRate);
-            obj.NAFC = AntiResinator();
+            obj.NAFC = AntiResinator(mainParms.sampleRate);
             obj.OFC = Resonator(mainParms.sampleRate);
             
             for i = 1:mainParms.maxOralFormants
@@ -81,16 +82,18 @@ classdef Generator
             outPos = 1;
             outArr = outBuf;
             
-            while outPos < length(outArr)
+            while (outPos < length(outArr)+1)
                 if (isempty(obj.pState.f0) || (obj.pState.positionInPeriod >= obj.pState.periodLength))
                     obj = obj.startNewPeriod();
                 end
-           [obj, outArr] = obj.computeNextOutputSignalSample();
+           [obj, outArr(outPos)] = obj.computeNextOutputSignalSample();
            obj.pState.positionInPeriod = obj.pState.positionInPeriod + 1;
            obj.absPosition = obj.absPosition + 1;
-           end
+           outPos = outPos + 1;       
+            end
+           
            if (isnumeric(obj.fParms.gainDb))
-            adjustSignalGain(outArr,obj.fParms.agcRmsLevel)
+             outArr =  obj.adjustSignalGain(outArr,obj.fParms.agcRmsLevel);
            end   
         end
         
@@ -121,11 +124,7 @@ classdef Generator
              
         end
         
-        function [obj,v] = computeCascadeBranch(obj,voice)
-             obj.fParms = obj.fParms;
-             obj.fState = obj.fState;
-             obj.pState = obj.pState;
-             
+        function [obj,v] = computeCascadeBranch(obj,voice)          
              cascadeVoice = voice * obj.fState.cascadeVoicingLin;
              
              if (obj.pState.positionInPeriod >= obj.pState.periodLength / 2) 
@@ -285,7 +284,7 @@ classdef Generator
         end
         
         function obj = setTiltFilter(obj,tiltDb)
-           obj.NFC =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
+           obj.tiltFilter =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
         end
         
         function obj = setNasalFormantCasc(obj,fParms)
@@ -357,7 +356,6 @@ classdef Generator
                     else
                         filterGain = peakGain;
                     end
-                    disp("filter gain = "  + (filterGain));
                 obj.OFP(i) = obj.OFP(i).adjustPeakGain(filterGain);   
                 else
                     obj.OFP(i) = obj.OFP(i).setMute();
@@ -374,7 +372,7 @@ classdef Generator
             end
         end
         
-        function buf = adjustSignalGain(buf, targetRms)
+        function buf = adjustSignalGain(obj,buf, targetRms)
          n = length(buf);
          rms = computeRms(buf);
             if (isempty(n) ==1)

@@ -12,11 +12,11 @@ classdef DifferencingFilter
          end
         
         function [x,y] = getTransFuncCoef()
-           x = [1 -1]
-           y = 1   
+           x = [1 -1];
+           y = 1;
         end
         
-        function [obj y] = step(obj,x)
+        function [obj, y] = step(obj,x)
              y = x - obj.x1;
              obj.x1 = x;
         end

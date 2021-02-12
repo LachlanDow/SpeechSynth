@@ -3,7 +3,7 @@ classdef Resonator
     %   Detailed explanation goes here
     
     properties
-        sample_rate
+        sampleRate
         a
         b
         c
@@ -14,15 +14,21 @@ classdef Resonator
         muted
     end
     methods
-        function obj = Resonator(sample_rate)
-            obj.sample_rate = sample_rate;
+        function obj = Resonator(sampleRate)
+            obj.sampleRate = sampleRate;
             obj.y1=0;
             obj.y2=0;
+            obj.passthrough = true;
+            obj.muted = false;            
         end
         
-        function obj = set(obj,f,bw, dcGain)
-            obj.r = exp(-pi * bw / obj.sample_rate);
-            w = 2 *  pi * f / obj.sample_rate;
+        function obj = set(obj,f,bw,dcGain)
+            
+            if (f <0 || f >= obj.sampleRate / 2 ||bw <=0 || dcGain <=0 ||  isinf(f) || isinf(bw) || isinf(dcGain) )
+                error("Invalid Resonator Parametes")
+            end
+            obj.r = exp(-pi * bw / obj.sampleRate);
+            w = 2 *  pi * f / obj.sampleRate;
             obj.c = - (obj.r ^ 2);
             obj.b = 2 * obj.r * cos(w);
             obj.a = (1 - obj.b - obj.c) * dcGain;
@@ -48,10 +54,9 @@ classdef Resonator
         end
         
         function obj = adjustPeakGain(obj,peakGain)
-            if(peakGain <= 0)
-                error("Problem")
+            if(peakGain <= 0 || isinf(peakGain))
+                error("Invalid Resonator Peak Gain")
             else
-               
                 obj.a = peakGain * (1-obj.r);
             end
             
