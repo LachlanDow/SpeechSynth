@@ -26,7 +26,7 @@ classdef ImpulsiveGlottalSource
             if(isempty(obj.resonator))
                 obj.resonator = Resonator(obj.sampleRate);
             end
-            bw = obj.sampleRate / openPhaseLength;
+           bw = obj.sampleRate / openPhaseLength;
            obj.resonator = obj.resonator.set(100,bw,1);
            obj.resonator = obj.resonator.adjustImpulseGain(1);
            obj.positionInPeriod = 1;
@@ -34,7 +34,7 @@ classdef ImpulsiveGlottalSource
         end
         
         function [obj,y] = getNext(obj)
-            if(isEmpty(obj.resonator))
+            if(isempty(obj.resonator))
                 y = 0;
             else
                 if obj.positionInPeriod == 1
@@ -44,11 +44,11 @@ classdef ImpulsiveGlottalSource
                 else
                     pulse =0;
                 end
-            end
+           
             obj.positionInPeriod = obj.positionInPeriod + 1;
             [obj.resonator,y] = obj.resonator.step(pulse);
             
-           
+            end
         end
         
            

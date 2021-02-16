@@ -229,10 +229,6 @@ classdef Generator
         
         %function to change the frame parameters to the using stage 
         function obj = startUsingNewFrameParameters(obj)
-            obj.mParms= obj.mParms;
-            obj.fParms = obj.fParms;
-            obj.fState = obj.fState;
-            
             obj.fState.breathinessLin = dbToLin(obj.fParms.breathinessDb);
             obj.fState.gainLin = dbToLin(obj.fParms.gainDb);
             obj = obj.setTiltFilter(obj.fParms.tiltDb);
@@ -275,7 +271,7 @@ classdef Generator
         function obj = startGlottalSourcePeriod(obj)
            switch(obj.mParms.glottalSourceType)
                case 'impulsive'
-                   obj.IGS = obj.IGS.startPeriod(this.pState.openPhaseLength);
+                   obj.IGS = obj.IGS.startPeriod(obj.pState.openPhaseLength);
                case 'natural'
                    obj.NGS = obj.NGS.startPeriod(obj.pState.openPhaseLength);
            end
@@ -285,23 +281,28 @@ classdef Generator
         end
         
         function obj = setTiltFilter(obj,tiltDb)
-           obj.tiltFilter =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
+            if(isempty(obj.fParms.tiltDb))
+                obj.tiltFilter = obj.tilFilter.setPassthrough();
+            else
+                
+                obj.tiltFilter =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
+            end
         end
         
         function obj = setNasalFormantCasc(obj,fParms)
-            if (isempty(fParms.nasalFormantFreq) || isempty(fParms.nasalFormantBw))
+            if (isempty(fParms.nasalFormantFreq) || isempty(fParms.nasalFormantBW))
                  obj.NFC = obj.NFC.setPassthrough();
             else
-               obj.NFC =  obj.NFC.set(fParms.nasalFormantFreq,fParms.nasalFormantBw);
+               obj.NFC =  obj.NFC.set(fParms.nasalFormantFreq,fParms.nasalFormantBW,1);
             end
             
         end
         
         function obj = setNasalAntiFormantCasc(obj,fParms)
-            if (isempty(fParms.nasalAntiformantFreq) || isempty(fParms.nassalAntiformantBW))
+            if (isempty(fParms.nasalAntiformantFreq) || isempty(fParms.nasalAntiformantBW))
                  obj.NAFC = obj.NAFC.setPassthrough();
             else
-                obj.NAFC = obj.NAFC.set(fParms.nasalAntiformantFreq, fParms.nasalAntiformantBw);
+                obj.NAFC = obj.NAFC.set(fParms.nasalAntiformantFreq, fParms.nasalAntiformantBW);
             end
             
         end
@@ -365,8 +366,8 @@ classdef Generator
         end
         
         function obj = setNasalFormantPar(obj,fParms)
-            if (isempty(fParms.nasalFormantFreq) == 0 && isempty(fParms.nasalFormantBw) == 0 && isempty(dbToLin(fParms.nasalFormantDb)) ==0)
-                obj.NFP = obj.nfp.set(fParms.nasalFormantFreq, fParms.nasalFormantBW);
+            if (isempty(fParms.nasalFormantFreq) == 0 && isempty(fParms.nasalFormantBW) == 0 && isempty(dbToLin(fParms.nasalFormantDb)) ==0)
+                obj.NFP = obj.NFP.set(fParms.nasalFormantFreq, fParms.nasalFormantBW);
                 obj.NFP = obj.NFP.adjustPeakGain(dbToLin(fParms.nasalFormantDb));
             else
                 obj.NFP = obj.NFP.setMute();

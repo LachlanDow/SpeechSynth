@@ -2,7 +2,7 @@ classdef AntiResinator
     %UNTITLED3 klatt antiresinator
     
     properties
-        sample_rate
+        sampleRate
         a
         b
         c
@@ -13,8 +13,8 @@ classdef AntiResinator
     end
     
     methods
-       function obj = AntiResinator(sample_rate)
-            obj.sample_rate = sample_rate;
+       function obj = AntiResinator(sampleRate)
+            obj.sampleRate = sampleRate;
             obj.x1=0;
             obj.x2=0;
             obj.passthrough = true;
@@ -25,8 +25,8 @@ classdef AntiResinator
              if (f <=0 || f >= obj.sampleRate / 2 ||bw <=0 ||  isinf(f) || isinf(bw))
                 error("Invalid AntiResonator Parametes")
             end
-             r = exp(- pi * bw / obj.sample_rate);
-             w = 2 * pi * f / obj.sample_rate;
+             r = exp(- pi * bw / obj.sampleRate);
+             w = 2 * pi * f / obj.sampleRate;
              c0 = - (r * r);
              b0 = 2 * r * cos(w);
              a0 = 1 - b0 - c0;
