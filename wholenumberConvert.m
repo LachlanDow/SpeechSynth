@@ -32,7 +32,7 @@ function [outputnumber] = wholenumberConvert(number)
                case "0"
                   wordArray(i) = " ";
               case "1"
-                  switch extractBetween(number(i:numberLength))
+                  switch extractBetween(number,i,numberLength)
                       case "11"
                           wordArray(i) = "Eleven";
                       case "12"

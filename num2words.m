@@ -4,7 +4,7 @@ function [wordArray] = num2words(number)
 numLength = (strlength(number));
 wordArray = string(missing);
 if contains(number,".")
-    splitNumber = split(number,".")
+    splitNumber = split(number,".");
     wholePart = splitNumber(1);
     decimalPart = splitNumber(2);
 else 
@@ -16,7 +16,7 @@ remainingLength = strlength(wholePart);
 remainder = mod(remainingLength,3);
 start = true;
 wordArrayCounter = 1;
-placecounter = 1
+placecounter = 1;
 while remainingLength > 0
     
         if remainder ~= 0 && start == true
@@ -25,7 +25,7 @@ while remainingLength > 0
             if (remainingLength > 6)
                wordArray(wordArrayCounter+1) ="Million";
             elseif (remainingLength > 3)
-               wordArray(wordArrayCounter+1) ="Thousnd";
+               wordArray(wordArrayCounter+1) ="Thousand";
             else
               wordArray(wordArrayCounter+1) ="";
             end
@@ -40,7 +40,7 @@ while remainingLength > 0
              if (remainingLength > 6)
                wordArray(wordArrayCounter+1) ="Million";
             elseif (remainingLength > 3)
-               wordArray(wordArrayCounter+1) ="Thousnd";
+               wordArray(wordArrayCounter+1) ="Thousand";
             else
               wordArray(wordArrayCounter+1) ="";
              end
