@@ -1,0 +1,23 @@
+function [newStr] = findAbbreviations(text)
+%findAbbreviations function to locate abbreviated terms and replace them
+% with terms that the synthesizer can say
+newStr = regexprep(text,"Mr", "MISTER",'ignorecase');
+newStr = regexprep(newStr,"Ms", "MIZ",'ignorecase');
+newStr = regexprep(newStr,"Mrs", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Dr", "DOCTOR",'ignorecase');
+newStr = regexprep(newStr,"Num", "NUMBER",'ignorecase');
+newStr = regexprep(newStr,"Jan", "January",'ignorecase');
+newStr = regexprep(newStr,"Feb", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Mar", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Apr", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Aug", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Sept", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Oct", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Nov", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Dr", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Dr", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Dr", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Dr", "MIZZES",'ignorecase');
+newStr = regexprep(newStr,"Dr", "MIZZES",'ignorecase');
+end
+
