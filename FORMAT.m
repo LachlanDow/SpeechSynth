@@ -40,7 +40,8 @@ for i = 1:length(textArray)
   end
 end
 textArray = strjoin(textArray);
-extArray = split(textArray, " ");
+textArray = upper(textArray);
+textArray = split(textArray, " ");
 
 end
 
