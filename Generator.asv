@@ -105,7 +105,7 @@ classdef Generator
              
              [obj.tiltFilter,voice] = obj.tiltFilter.step(voice);
              if(obj.pState.positionInPeriod < obj.pState.openPhaseLength)
-                 voice = voice + (getWhiteNoise() * obj.fState.breathinessLin);
+                 voice = voice + getWhiteNoise() * obj.fState.breathinessLin;
              end
              
              if(obj.fParms.cascadeEnabled == true)

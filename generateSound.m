@@ -1,4 +1,5 @@
 function outBuf = generateSound(mParms,fParmsA)
+rng('shuffle')
     generator = Generator(mParms);
    
     
