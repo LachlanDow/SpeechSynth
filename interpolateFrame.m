@@ -44,7 +44,7 @@ fricationDb = linspace(startFrame.fricationDb,endFrame.fricationDb,numFrames);
 fricationMod = linspace(startFrame.fricationMod,endFrame.fricationMod,numFrames);
 parallelBypassDb = linspace(startFrame.parallelBypassDb,endFrame.parallelBypassDb,numFrames);
 
-for i = 1:30
+for i = 1:20
     startFrames(i) = startFrame;
 end
 
@@ -86,7 +86,7 @@ for j = 1:numFrames
     inputFrames(1,j).parallelBypassDb = parallelBypassDb(j);
 end
 
-for i = 1:90
+for i = 1:20
     endFrames(i) = endFrame;
 end
     inputFrames = horzcat(startFrames,inputFrames,endFrames);
