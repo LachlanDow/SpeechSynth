@@ -41,7 +41,7 @@ classdef FrameParms
             obj.duration =0.005;
             obj.f0 = f0;
             obj.flutterLevel = 0;
-            obj.openPhaseRatio = 0.1;
+            obj.openPhaseRatio = 1;
             obj.breathinessDb = -25;
             obj.tiltDb = 0.001;
             obj.gainDb = 0;

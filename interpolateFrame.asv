@@ -1,13 +1,11 @@
 function [inputFrames] = interpolateFrame(startFrame,endFrame, numFrames)
 
+inputFrames = FrameParms(150,1,1);
+startFrames = FrameParms(150,1,1);
+endFrames = FrameParms(150,1,1);
 
-f0 = 200;
-inputFrames = FrameParms(f0,1,1);
-startFrames = FrameParms(f0,1,1);
-endFrames = FrameParms(f0,1,1);
-
-for i = 1:numFrames
-    inputFrames(i) = FrameParms(f0,1,1);
+for i = 1:numFrames+60
+    inputFrames(i) = FrameParms(150,1,1);
 end
 
 f1 = linspace(startFrame.oralFormantFreq(1),endFrame.oralFormantFreq(1),numFrames);
@@ -86,9 +84,9 @@ for j = 1:numFrames
     inputFrames(1,j).parallelBypassDb = parallelBypassDb(j);
 end
 
-for i = 1:90
-    endFrames(i) = endFrame;
+for i = 1:30
+endFrames(i) = startFrame;
 end
-    inputFrames = horzcat(startFrames,inputFrames,endFrames);
+
 end
 
