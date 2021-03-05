@@ -1,9 +1,6 @@
 function outBuf = generateSound(mParms,fParmsA)
-rng('shuffle')
     generator = Generator(mParms);
-   
-    
-    
+
     outBufLen = 0;
     for i = (1:length(fParmsA))
         fParms = fParmsA(i);

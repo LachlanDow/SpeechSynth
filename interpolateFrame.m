@@ -1,4 +1,4 @@
-function [inputFrames] = interpolateFrame(startFrame,endFrame, numFrames)
+function [inputFrames] = interpolateFrame(startFrame,endFrame, durationStart,durationEnd,transitionFrames)
 
 
 f0 = 200;
@@ -6,49 +6,49 @@ inputFrames = FrameParms(f0,1,1);
 startFrames = FrameParms(f0,1,1);
 endFrames = FrameParms(f0,1,1);
 
-for i = 1:numFrames
+for i = 1:transitionFrames
     inputFrames(i) = FrameParms(f0,1,1);
 end
 
-f1 = linspace(startFrame.oralFormantFreq(1),endFrame.oralFormantFreq(1),numFrames);
-f2 = linspace(startFrame.oralFormantFreq(2),endFrame.oralFormantFreq(2),numFrames);
-f3 = linspace(startFrame.oralFormantFreq(3),endFrame.oralFormantFreq(3),numFrames);
-f4 = linspace(startFrame.oralFormantFreq(4),endFrame.oralFormantFreq(4),numFrames);
+f1 = linspace(startFrame.oralFormantFreq(1),endFrame.oralFormantFreq(1),transitionFrames);
+f2 = linspace(startFrame.oralFormantFreq(2),endFrame.oralFormantFreq(2),transitionFrames);
+f3 = linspace(startFrame.oralFormantFreq(3),endFrame.oralFormantFreq(3),transitionFrames);
+f4 = linspace(startFrame.oralFormantFreq(4),endFrame.oralFormantFreq(4),transitionFrames);
 
-bw1 = linspace(startFrame.oralFormantBW(1),endFrame.oralFormantBW(1),numFrames);
-bw2 = linspace(startFrame.oralFormantBW(2),endFrame.oralFormantBW(2),numFrames);
-bw3 = linspace(startFrame.oralFormantBW(3),endFrame.oralFormantBW(3),numFrames);
-bw4 = linspace(startFrame.oralFormantBW(4),endFrame.oralFormantBW(4),numFrames);
+bw1 = linspace(startFrame.oralFormantBW(1),endFrame.oralFormantBW(1),transitionFrames);
+bw2 = linspace(startFrame.oralFormantBW(2),endFrame.oralFormantBW(2),transitionFrames);
+bw3 = linspace(startFrame.oralFormantBW(3),endFrame.oralFormantBW(3),transitionFrames);
+bw4 = linspace(startFrame.oralFormantBW(4),endFrame.oralFormantBW(4),transitionFrames);
 
-of1 = linspace(startFrame.oralFormantDb(1),endFrame.oralFormantDb(1),numFrames);
-of2 = linspace(startFrame.oralFormantDb(2),endFrame.oralFormantDb(2),numFrames);
-of3 = linspace(startFrame.oralFormantDb(3),endFrame.oralFormantDb(3),numFrames);
-of4 = linspace(startFrame.oralFormantDb(4),endFrame.oralFormantDb(4),numFrames);
-of5 = linspace(startFrame.oralFormantDb(5),endFrame.oralFormantDb(5),numFrames);
-of6 = linspace(startFrame.oralFormantDb(6),endFrame.oralFormantDb(6),numFrames);
+of1 = linspace(startFrame.oralFormantDb(1),endFrame.oralFormantDb(1),transitionFrames);
+of2 = linspace(startFrame.oralFormantDb(2),endFrame.oralFormantDb(2),transitionFrames);
+of3 = linspace(startFrame.oralFormantDb(3),endFrame.oralFormantDb(3),transitionFrames);
+of4 = linspace(startFrame.oralFormantDb(4),endFrame.oralFormantDb(4),transitionFrames);
+of5 = linspace(startFrame.oralFormantDb(5),endFrame.oralFormantDb(5),transitionFrames);
+of6 = linspace(startFrame.oralFormantDb(6),endFrame.oralFormantDb(6),transitionFrames);
 
-gainDb = linspace(startFrame.gainDb,endFrame.gainDb,numFrames);
-agcRmsLevel = linspace(startFrame.agcRmsLevel,endFrame.agcRmsLevel,numFrames);
-flutterLevel = linspace(startFrame.flutterLevel,endFrame.flutterLevel,numFrames);
-openPhaseRatio = linspace(startFrame.openPhaseRatio,endFrame.openPhaseRatio,numFrames);
+gainDb = linspace(startFrame.gainDb,endFrame.gainDb,transitionFrames);
+agcRmsLevel = linspace(startFrame.agcRmsLevel,endFrame.agcRmsLevel,transitionFrames);
+flutterLevel = linspace(startFrame.flutterLevel,endFrame.flutterLevel,transitionFrames);
+openPhaseRatio = linspace(startFrame.openPhaseRatio,endFrame.openPhaseRatio,transitionFrames);
 
-breathiness = linspace(startFrame.breathinessDb,endFrame.breathinessDb,numFrames);
-cascVoicing = linspace(startFrame.cascadeVoicingDb,endFrame.cascadeVoicingDb,numFrames);
-cascAsp = linspace(startFrame.cascadeAspirationDb,endFrame.cascadeAspirationDb,numFrames);
-cascadeAspirationMod = linspace(startFrame.cascadeAspirationMod,endFrame.cascadeAspirationMod,numFrames);
+breathiness = linspace(startFrame.breathinessDb,endFrame.breathinessDb,transitionFrames);
+cascVoicing = linspace(startFrame.cascadeVoicingDb,endFrame.cascadeVoicingDb,transitionFrames);
+cascAsp = linspace(startFrame.cascadeAspirationDb,endFrame.cascadeAspirationDb,transitionFrames);
+cascadeAspirationMod = linspace(startFrame.cascadeAspirationMod,endFrame.cascadeAspirationMod,transitionFrames);
 
-parallelVoicingDb = linspace(startFrame.parallelVoicingDb,endFrame.parallelVoicingDb,numFrames);
-parallelAspirationDb = linspace(startFrame.parallelAspirationDb,endFrame.parallelAspirationDb,numFrames);
-parallelAspirationMod = linspace(startFrame.parallelAspirationMod,endFrame.parallelAspirationMod,numFrames);
-fricationDb = linspace(startFrame.fricationDb,endFrame.fricationDb,numFrames);
-fricationMod = linspace(startFrame.fricationMod,endFrame.fricationMod,numFrames);
-parallelBypassDb = linspace(startFrame.parallelBypassDb,endFrame.parallelBypassDb,numFrames);
+parallelVoicingDb = linspace(startFrame.parallelVoicingDb,endFrame.parallelVoicingDb,transitionFrames);
+parallelAspirationDb = linspace(startFrame.parallelAspirationDb,endFrame.parallelAspirationDb,transitionFrames);
+parallelAspirationMod = linspace(startFrame.parallelAspirationMod,endFrame.parallelAspirationMod,transitionFrames);
+fricationDb = linspace(startFrame.fricationDb,endFrame.fricationDb,transitionFrames);
+fricationMod = linspace(startFrame.fricationMod,endFrame.fricationMod,transitionFrames);
+parallelBypassDb = linspace(startFrame.parallelBypassDb,endFrame.parallelBypassDb,transitionFrames);
 
-for i = 1:20
+for i = 1:durationStart
     startFrames(i) = startFrame;
 end
 
-for j = 1:numFrames
+for j = 1:transitionFrames
     inputFrames(j).oralFormantFreq(1) = f1(j);
     inputFrames(j).oralFormantFreq(2) = f2(j);
     inputFrames(j).oralFormantFreq(3) = f3(j);
@@ -86,7 +86,7 @@ for j = 1:numFrames
     inputFrames(1,j).parallelBypassDb = parallelBypassDb(j);
 end
 
-for i = 1:20
+for i = 1:durationEnd
     endFrames(i) = endFrame;
 end
     inputFrames = horzcat(startFrames,inputFrames,endFrames);

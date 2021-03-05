@@ -63,14 +63,28 @@ classdef FrameParms
             obj.parallelAspirationDb  = -25;
             obj.parallelAspirationMod = 0.5;    
             obj.fricationDb = -30;                
-            obj.fricationMod = 0;                   
+            obj.fricationMod = 0.5;                   
             obj.parallelBypassDb =0;                
             obj.nasalFormantDb = [];                    
             obj.oralFormantDb = [0,-8,-15,-19,-30,-35];
-            
-            
-        end
+    end
+       
+    function obj = setMainParms(AV,AVS,AF,F1,F2,F3,B1,B2,B3,A2,A3,A4,A5,A6,AB)
+      
+   obj.cascadeVoicingDb = AV;
+   obj.parallelVoicingDb = AV;                 
+    
    
+   obj.tiltDb = AVS
+   
+   obj.fricationDb = AF;
+   
+   cascadeAspirationDb
+   cascadeAspirationMod
+   nasalAntiformantFreq
+   nasalAntiformantBW
+    end
+    
    end
    
     
