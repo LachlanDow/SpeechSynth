@@ -5,8 +5,7 @@ fParmsB = interpolateFrame(parm2,parm3,transitionPeriod);
 
 hello = horzcat(fParmsA,fParmsB);
 for i = 1:40
-    hello(length+i) = parm3;
-end
+    hello(length
 hello = generateSound(mParms,hello);
 
 end
