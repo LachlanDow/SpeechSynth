@@ -1,14 +1,10 @@
-function test(docMap,rules)
+function phonemese =  test(string, docMap,rules)
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
-disp(word2phone("the", docMap, rules))
-disp(word2phone("quick", docMap, rules))
-disp(word2phone("brown", docMap, rules))
-disp(word2phone("fox", docMap, rules))
-disp(word2phone("jumped", docMap, rules))
-disp(word2phone("over", docMap, rules))
-disp(word2phone("the", docMap, rules))
-disp(word2phone("lazy", docMap, rules))
-disp(word2phone("dog", docMap, rules))
+string = FORMAT(string);
+phonemese = word();
+for i = 1:length(string)
+    phonemese(i).phoneWord = word2phone(string(i),docMap,rules);
+end
 end
 
