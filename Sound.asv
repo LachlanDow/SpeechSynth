@@ -1,0 +1,22 @@
+
+classdef Sound
+    %SOu Summary of this class goes here
+    %   Detailed explanation goes here
+    
+    properties
+        dataframe
+        duration
+        transitionLength
+        
+    end
+    
+    methods
+        %% constutor function for the sound input [ soundFrame= FrameParms,duration=int(number of 5ms inputFrames),transitionLength=int(number of 5ms frames for the transition betweensounds to take place)
+        function obj = Sound(soundFrame,duration,transitionLength)
+             obj.dataframe = soundFrame;
+             obj.duration = duration;
+             obj.transitionLength = transitionLength;
+        end     
+    end
+end
+
