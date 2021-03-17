@@ -29,13 +29,9 @@ while letterPos <= strlength(word) %loop for every letter in string
             if(strcmp(beforeRules,"") == false)
                 ruleCheck = strlength(beforeRules) + 1;
                 while (ruleCheck > 0  && matchingInner == true)
-                   if ruleCheck <= strlength(beforeRules)
-                       matchingInner = checksymbol(word,letterPos- (strlength(beforeRules)+ruleCheck-1),extract(beforeRules,ruleCheck),-1);
-                   else
-                       matchingInner = false;
-                   end
-                   
-                    ruleCheck = ruleCheck - 1;
+                   if  ruleCheck <= strlength(beforeRules)
+                    matchingInner = checksymbol(word,letterPos- (strlength(beforeRules)+ruleCheck-1),extract(beforeRules,ruleCheck),-1);
+                    ruleCheck = rulecheck - 1;
                 end
             end
             afterRules = extractAfter(comparison,"]");
@@ -56,7 +52,7 @@ while letterPos <= strlength(word) %loop for every letter in string
         end
         if matchingInner == true
             matchFound = true;
-            z =  horzcat(z,extractAfter(soundRule,"="));
+            z =  strcat(z,extractAfter(soundRule,"="));
             letterPos = letterPos + strlength(ruleContents);
         else
             indexPos = indexPos + 1;
