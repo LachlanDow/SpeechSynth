@@ -1,7 +1,7 @@
 function [inputFrames] = interpolateFrame(startFrame,endFrame, durationStart,durationEnd,transitionFrames)
 
 
-f0 = 200;
+f0 = 150;
 inputFrames = FrameParms(f0,1,1);
 startFrames = FrameParms(f0,1,1);
 endFrames = FrameParms(f0,1,1);
@@ -31,6 +31,10 @@ gainDb = linspace(startFrame.gainDb,endFrame.gainDb,transitionFrames);
 agcRmsLevel = linspace(startFrame.agcRmsLevel,endFrame.agcRmsLevel,transitionFrames);
 flutterLevel = linspace(startFrame.flutterLevel,endFrame.flutterLevel,transitionFrames);
 openPhaseRatio = linspace(startFrame.openPhaseRatio,endFrame.openPhaseRatio,transitionFrames);
+nasalFormantFreq = linspace(startFrame.nasalFormantFreq,endFrame.nasalFormantFreq,transitionFrames);
+nasalFormantBW = linspace(startFrame.nasalFormantBW,endFrame.nasalFormantBW,transitionFrames);
+
+
 
 breathiness = linspace(startFrame.breathinessDb,endFrame.breathinessDb,transitionFrames);
 cascVoicing = linspace(startFrame.cascadeVoicingDb,endFrame.cascadeVoicingDb,transitionFrames);
@@ -43,10 +47,7 @@ parallelAspirationMod = linspace(startFrame.parallelAspirationMod,endFrame.paral
 fricationDb = linspace(startFrame.fricationDb,endFrame.fricationDb,transitionFrames);
 fricationMod = linspace(startFrame.fricationMod,endFrame.fricationMod,transitionFrames);
 parallelBypassDb = linspace(startFrame.parallelBypassDb,endFrame.parallelBypassDb,transitionFrames);
-
-for i = 1:durationStart
-    startFrames(i) = startFrame;
-end
+nasalFormantDb = linspace(startFrame.nasalFormantDb,endFrame.nasalFormantDb,transitionFrames);
 
 for j = 1:transitionFrames
     inputFrames(j).oralFormantFreq(1) = f1(j);
@@ -71,6 +72,8 @@ for j = 1:transitionFrames
     inputFrames(1,j).agcRmsLevel = agcRmsLevel(j);
     inputFrames(1,j).flutterLevel = flutterLevel(j);
     inputFrames(1,j).openPhaseRatio = openPhaseRatio(j);
+    inputFrames(1,j).nasalFormantFreq = nasalFormantFreq(j);
+    inputFrames(1,j).nasalFormantBW = nasalFormantBW(j);
     
     inputFrames(1,j).breathinessDb = breathiness(j);
     inputFrames(1,j).cascadeVoicingDb = cascVoicing(j);
@@ -84,6 +87,9 @@ for j = 1:transitionFrames
     inputFrames(1,j).fricationDb = fricationDb(j);
     inputFrames(1,j).fricationMod = fricationMod(j);
     inputFrames(1,j).parallelBypassDb = parallelBypassDb(j);
+    inputFrames(1,j).nasalFormantDb = nasalFormantDb(j);
+
+    
 end
 
 for i = 1:durationEnd

@@ -283,8 +283,9 @@ classdef Generator
         end
         
         function obj = setTiltFilter(obj,tiltDb)
-            if(isempty(obj.fParms.tiltDb))
-                obj.tiltFilter = obj.tilFilter.setPassthrough();
+            if(isempty(obj.fParms.tiltDb) || obj.fParms.tiltDb == 0)
+                
+                obj.tiltFilter = obj.tiltFilter.setPassthrough();
             else
                 
                 obj.tiltFilter =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
@@ -292,7 +293,7 @@ classdef Generator
         end
         
         function obj = setNasalFormantCasc(obj,fParms)
-            if (isempty(fParms.nasalFormantFreq) || isempty(fParms.nasalFormantBW))
+            if (fParms.nasalFormantFreq == 0 || fParms.nasalFormantBW == 0 )
                  obj.NFC = obj.NFC.setPassthrough();
             else
                obj.NFC =  obj.NFC.set(fParms.nasalFormantFreq,fParms.nasalFormantBW,1);
@@ -368,8 +369,8 @@ classdef Generator
         end
         
         function obj = setNasalFormantPar(obj,fParms)
-            if (isempty(fParms.nasalFormantFreq) == 0 && isempty(fParms.nasalFormantBW) == 0 && isempty(dbToLin(fParms.nasalFormantDb)) ==0)
-                obj.NFP = obj.NFP.set(fParms.nasalFormantFreq, fParms.nasalFormantBW);
+            if (fParms.nasalFormantFreq == 0 && fParms.nasalFormantBW == 0 && dbToLin(fParms.nasalFormantDb) ==0)
+                obj.NFP = obj.NFP.set(fParms.nasalFormantFreq, fParms.nasalFormantBW,1);
                 obj.NFP = obj.NFP.adjustPeakGain(dbToLin(fParms.nasalFormantDb));
             else
                 obj.NFP = obj.NFP.setMute();

@@ -17,7 +17,7 @@ classdef Sound
              obj.dataFrame = soundFrame;
              obj.duration = duration;
              obj.transitionLength = transitionLength;
-        end     
+        end    
     end
 end
 
