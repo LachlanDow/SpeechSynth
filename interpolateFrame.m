@@ -1,14 +1,17 @@
-function [inputFrames] = interpolateFrame(startFrame,endFrame, durationStart,durationEnd,transitionFrames)
+function [inputFrames] = interpolateFrame(startFrame,endFrame, durationStart,transitionFrames)
 
 
 f0 = 150;
 inputFrames = FrameParms(f0,1,1);
 startFrames = FrameParms(f0,1,1);
 endFrames = FrameParms(f0,1,1);
-
+for h = 1:durationStart
+    startFrames(h) = startFrame;
+end
 for i = 1:transitionFrames
     inputFrames(i) = FrameParms(f0,1,1);
 end
+f0 = linspace(startFrame.f0(1),endFrame.f0(1),transitionFrames);
 
 f1 = linspace(startFrame.oralFormantFreq(1),endFrame.oralFormantFreq(1),transitionFrames);
 f2 = linspace(startFrame.oralFormantFreq(2),endFrame.oralFormantFreq(2),transitionFrames);
@@ -50,6 +53,8 @@ parallelBypassDb = linspace(startFrame.parallelBypassDb,endFrame.parallelBypassD
 nasalFormantDb = linspace(startFrame.nasalFormantDb,endFrame.nasalFormantDb,transitionFrames);
 
 for j = 1:transitionFrames
+    inputFrames(j).f0(1) = f0(j);
+    
     inputFrames(j).oralFormantFreq(1) = f1(j);
     inputFrames(j).oralFormantFreq(2) = f2(j);
     inputFrames(j).oralFormantFreq(3) = f3(j);
@@ -89,12 +94,10 @@ for j = 1:transitionFrames
     inputFrames(1,j).parallelBypassDb = parallelBypassDb(j);
     inputFrames(1,j).nasalFormantDb = nasalFormantDb(j);
 
-    
+   % for h = 1:durationStart
+   % endFrames(h) = endFrame;
+   % end
 end
-
-for i = 1:durationEnd
-    endFrames(i) = endFrame;
-end
-    inputFrames = horzcat(startFrames,inputFrames,endFrames);
+    inputFrames = horzcat(startFrames,inputFrames);
 end
 
