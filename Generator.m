@@ -293,6 +293,7 @@ classdef Generator
         end
         
         function obj = setNasalFormantCasc(obj,fParms)
+            
             if (fParms.nasalFormantFreq == 0 || fParms.nasalFormantBW == 0 )
                  obj.NFC = obj.NFC.setPassthrough();
             else

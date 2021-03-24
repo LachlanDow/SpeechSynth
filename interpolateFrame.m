@@ -17,11 +17,15 @@ f1 = linspace(startFrame.oralFormantFreq(1),endFrame.oralFormantFreq(1),transiti
 f2 = linspace(startFrame.oralFormantFreq(2),endFrame.oralFormantFreq(2),transitionFrames);
 f3 = linspace(startFrame.oralFormantFreq(3),endFrame.oralFormantFreq(3),transitionFrames);
 f4 = linspace(startFrame.oralFormantFreq(4),endFrame.oralFormantFreq(4),transitionFrames);
+f5 = linspace(startFrame.oralFormantFreq(5),endFrame.oralFormantFreq(5),transitionFrames);
+f6 = linspace(startFrame.oralFormantFreq(6),endFrame.oralFormantFreq(6),transitionFrames);
 
 bw1 = linspace(startFrame.oralFormantBW(1),endFrame.oralFormantBW(1),transitionFrames);
 bw2 = linspace(startFrame.oralFormantBW(2),endFrame.oralFormantBW(2),transitionFrames);
 bw3 = linspace(startFrame.oralFormantBW(3),endFrame.oralFormantBW(3),transitionFrames);
 bw4 = linspace(startFrame.oralFormantBW(4),endFrame.oralFormantBW(4),transitionFrames);
+bw5 = linspace(startFrame.oralFormantBW(5),endFrame.oralFormantBW(5),transitionFrames);
+bw6 = linspace(startFrame.oralFormantBW(6),endFrame.oralFormantBW(6),transitionFrames);
 
 of1 = linspace(startFrame.oralFormantDb(1),endFrame.oralFormantDb(1),transitionFrames);
 of2 = linspace(startFrame.oralFormantDb(2),endFrame.oralFormantDb(2),transitionFrames);
@@ -40,6 +44,7 @@ nasalFormantBW = linspace(startFrame.nasalFormantBW,endFrame.nasalFormantBW,tran
 
 
 breathiness = linspace(startFrame.breathinessDb,endFrame.breathinessDb,transitionFrames);
+tiltDb = linspace(startFrame.tiltDb,endFrame.tiltDb,transitionFrames);
 cascVoicing = linspace(startFrame.cascadeVoicingDb,endFrame.cascadeVoicingDb,transitionFrames);
 cascAsp = linspace(startFrame.cascadeAspirationDb,endFrame.cascadeAspirationDb,transitionFrames);
 cascadeAspirationMod = linspace(startFrame.cascadeAspirationMod,endFrame.cascadeAspirationMod,transitionFrames);
@@ -59,11 +64,15 @@ for j = 1:transitionFrames
     inputFrames(j).oralFormantFreq(2) = f2(j);
     inputFrames(j).oralFormantFreq(3) = f3(j);
     inputFrames(j).oralFormantFreq(4) = f4(j);
+    inputFrames(j).oralFormantFreq(5) = f5(j);
+    inputFrames(j).oralFormantFreq(6) = f6(j);
     
     inputFrames(1,j).oralFormantBW(1) = bw1(j);
     inputFrames(1,j).oralFormantBW(2) = bw2(j);
     inputFrames(1,j).oralFormantBW(3) = bw3(j);
     inputFrames(1,j).oralFormantBW(4) = bw4(j);
+    inputFrames(1,j).oralFormantBW(5) = bw5(j);
+    inputFrames(1,j).oralFormantBW(6) = bw6(j);
     
     inputFrames(1,j).oralFormantDb(1) = of1(j);
     inputFrames(1,j).oralFormantDb(2) = of2(j);
@@ -84,7 +93,7 @@ for j = 1:transitionFrames
     inputFrames(1,j).cascadeVoicingDb = cascVoicing(j);
     inputFrames(1,j).cascadeAspirationDb = cascAsp(j);
     inputFrames(1,j).cascadeAspirationMod = cascadeAspirationMod(j);
-    
+    inputFrames(1,j).tiltDb = tiltDb(j);
     
     inputFrames(1,j).parallelVoicingDb = parallelVoicingDb(j);
     inputFrames(1,j).parallelAspirationDb = parallelAspirationDb(j);

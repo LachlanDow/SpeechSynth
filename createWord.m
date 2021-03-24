@@ -13,12 +13,16 @@ if length(soundList) == 1
     generateSoundInput = interpolateFrame(soundList.dataFrame,soundList.dataFrame,soundList.duration,transitionFrames);
 return
 end
-for i = 1:(length(soundList)-1)
+for i = 1:(length(soundList))
     transitionFrames = soundList(i).transitionLength;
     
     %combine with horzcat the current array of frameparamters and with next
     %chunk of the data frame
-    generateSoundInput = horzcat(generateSoundInput,interpolateFrame(soundList(i).dataFrame,soundList(i+1).dataFrame,soundList(i).duration,transitionFrames));
+    if i ~= length(soundList)
+        generateSoundInput = horzcat(generateSoundInput,interpolateFrame(soundList(i).dataFrame,soundList(i+1).dataFrame,soundList(i).duration,transitionFrames));
+    else
+        generateSoundInput = horzcat(generateSoundInput,interpolateFrame(soundList(i).dataFrame,soundList(i).dataFrame,soundList(i).duration,1));
+    end
 end
 
 end
