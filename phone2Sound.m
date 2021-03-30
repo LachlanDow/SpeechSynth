@@ -6,7 +6,7 @@ function soundArray = phone2Sound(word,soundMap,phonemeList,durationMap)
     while i <= length(conversionArray)
         if(contains(conversionArray(i),"/") ~= true)
             if conversionArray(i) == "_"
-                tempSound = Sound(phonemeList(soundMap(conversionArray(i+1))),durationMap(conversionArray(i+1)),20);
+                tempSound = Sound(phonemeList(soundMap(conversionArray(i+1))),durationMap(conversionArray(i+1)) * 3,20);
                 tempSound.dataFrame = convertToHH(tempSound.dataFrame);
                 soundArray(phonemeTracker) = tempSound;
                 phonemeTracker = phonemeTracker + 1;
