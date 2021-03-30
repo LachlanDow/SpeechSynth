@@ -3,22 +3,23 @@ function soundArray = phone2Sound(word,soundMap,phonemeList,durationMap)
     dipthongTracker = 0;
     i = 1;
     phonemeTracker = 1;
-    while i <= length(conversionArray)
+    while i <= length(conversionArray)+dipthongTracker
         if(contains(conversionArray(i),"/") ~= true)
             if conversionArray(i) == "_"
                 tempSound = Sound(phonemeList(soundMap(conversionArray(i+1))),durationMap(conversionArray(i+1)),20);
                 tempSound.dataFrame = convertToHH(tempSound.dataFrame);
-                soundArray(phonemeTracker) = tempSound;
+                soundArray(phonemeTracker);
                 phonemeTracker = phonemeTracker + 1;
                 i = i + 1;
             else
-                soundArray(phonemeTracker) = Sound(phonemeList(soundMap(conversionArray(i))),durationMap(conversionArray(i)),20);
+                soundArray(i) = Sound(phonemeList(soundMap(conversionArray(i))),durationMap(conversionArray(i)),20);
                 phonemeTracker = phonemeTracker + 1;
             end
         else 
             tempDipthong = split(conversionArray(i),"/");
+            dipthongTracker = dipthongTracker +1;
             for j = 1:length(tempDipthong)
-                soundArray(phonemeTracker) = Sound(phonemeList(soundMap(tempDipthong(j))),durationMap(tempDipthong(j)),20);
+                 soundArray(phonemeTracker+j-1) = Sound(phonemeList(soundMap(tempDipthong(j))),durationMap(tempDipthong(j)),20);
                 phonemeTracker = phonemeTracker + 1;
             end
         end
