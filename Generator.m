@@ -105,7 +105,7 @@ classdef Generator
              
              [obj.tiltFilter,voice] = obj.tiltFilter.step(voice);
              if(obj.pState.positionInPeriod < obj.pState.openPhaseLength)
-                 voice = voice + getWhiteNoise() * obj.fState.breathinessLin;
+                 voice = voice + (getWhiteNoise() * obj.fState.breathinessLin);
              end
              
              if(obj.fParms.cascadeEnabled == true)
@@ -159,18 +159,20 @@ classdef Generator
             else
                 currentAspirationMod = 0;
             end
-            aspiration = obj.ASP.getNext() * obj.fState.parallelAspirationLin * (1-currentAspirationMod);
-            source = parallelVoice + aspiration;
-            sourceDifference = obj.DFP.step(source);
             
-            if obj.pState.positionINperiod >= obj.pState.periodLength/2
+            [obj.ASC, outputVal] = obj.ASC.getNext();
+            aspiration = outputVal * obj.fState.parallelAspirationLin * (1-currentAspirationMod);
+            source = parallelVoice + aspiration;
+            [obj.DFP,sourceDifference] = obj.DFP.step(obj.DFP,source);
+            
+            if obj.pState.positionInPeriod >= obj.pState.periodLength/2
                 currentFricationMod = obj.fParms.fricationMod;
             else
                 currentFricationMod = 0;
             end
             
-            [obj.FSP,retVal] = obj.FSP.getnext();
-            fricationNoise = retVal * fSatateIn.fricationLin * (1 - currentFricationMod);
+            [obj.FSP,retVal] = obj.FSP.getNext();
+            fricationNoise = retVal * obj.fState.fricationLin * (1 - currentFricationMod);
             source2 = sourceDifference + fricationNoise;
             
             v = 0;
@@ -190,7 +192,7 @@ classdef Generator
                 v = v + alternatingSign * OFPstepVal;
             end
             
-            v = v + obj.fState.parallelByPassLin * source2;
+            v = v + obj.fState.parallelBypassLin * source2;
         end
         
         
@@ -281,8 +283,9 @@ classdef Generator
         end
         
         function obj = setTiltFilter(obj,tiltDb)
-            if(isempty(obj.fParms.tiltDb))
-                obj.tiltFilter = obj.tilFilter.setPassthrough();
+            if(isempty(obj.fParms.tiltDb) || obj.fParms.tiltDb == 0)
+                
+                obj.tiltFilter = obj.tiltFilter.setPassthrough();
             else
                 
                 obj.tiltFilter =  obj.tiltFilter.set(3000,dbToLin(-tiltDb),1);
@@ -290,7 +293,8 @@ classdef Generator
         end
         
         function obj = setNasalFormantCasc(obj,fParms)
-            if (isempty(fParms.nasalFormantFreq) || isempty(fParms.nasalFormantBW))
+            
+            if (fParms.nasalFormantFreq == 0 || fParms.nasalFormantBW == 0 )
                  obj.NFC = obj.NFC.setPassthrough();
             else
                obj.NFC =  obj.NFC.set(fParms.nasalFormantFreq,fParms.nasalFormantBW,1);
@@ -366,8 +370,8 @@ classdef Generator
         end
         
         function obj = setNasalFormantPar(obj,fParms)
-            if (isempty(fParms.nasalFormantFreq) == 0 && isempty(fParms.nasalFormantBW) == 0 && isempty(dbToLin(fParms.nasalFormantDb)) ==0)
-                obj.NFP = obj.NFP.set(fParms.nasalFormantFreq, fParms.nasalFormantBW);
+            if (fParms.nasalFormantFreq == 0 && fParms.nasalFormantBW == 0 && dbToLin(fParms.nasalFormantDb) ==0)
+                obj.NFP = obj.NFP.set(fParms.nasalFormantFreq, fParms.nasalFormantBW,1);
                 obj.NFP = obj.NFP.adjustPeakGain(dbToLin(fParms.nasalFormantDb));
             else
                 obj.NFP = obj.NFP.setMute();
