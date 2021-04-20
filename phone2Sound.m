@@ -1,4 +1,5 @@
 function soundArray = phone2Sound(word,soundMap,phonemeList,durationMap)
+%% function to conver from phonemes tsound frames
    initialArray = word.phoneWord;
    conversionArray = "";
     for i = 1:length(initialArray)

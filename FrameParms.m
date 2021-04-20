@@ -1,16 +1,16 @@
 classdef FrameParms
-    %UNTITLED3 Summary of this class goes here
-    %   Detailed explanation goes here
+    %FrameParms class that represents the frame parameters to passed into
+    %the synthesiser
     
     properties
    duration         %Frame Duration(sec)
    f0               %fundamental Frequency
    flutterLevel
-   openPhaseRatio
+   openPhaseRatio 
    breathinessDb
    tiltDb
    gainDb
-   agcRmsLevel
+   agcRmsLevel %RootMean square level
    nasalFormantFreq
    nasalFormantBW
    oralFormantFreq

@@ -1,5 +1,5 @@
 classdef ImpulsiveGlottalSource
-    %UNTITLED7 Generates a glottal source signal LP filtering a pulse
+    %Impulsive Glottalsource Generates a glottal source signal LP filtering a pulse
     %
     
     properties
@@ -11,15 +11,14 @@ classdef ImpulsiveGlottalSource
     
     methods
         function obj = ImpulsiveGlottalSource(sampleRate)
-            %UNTITLED7 Construct an instance of this class
-            %   Detailed explanation goes here
+            %Constructo  Construct an instance of this class
             obj.sampleRate = sampleRate;
             obj.resonator = [];
         end
         
         function obj = startPeriod(obj,openPhaseLength)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            %startPeriod sets values for a new period of generation for the
+            %synthesiser
             if(isempty(openPhaseLength))
                 obj.resonator = [];
             end  
@@ -33,6 +32,7 @@ classdef ImpulsiveGlottalSource
             
         end
         
+        %% steps the value for the obejcts to the next ones when called 
         function [obj,y] = getNext(obj)
             if(isempty(obj.resonator))
                 y = 0;

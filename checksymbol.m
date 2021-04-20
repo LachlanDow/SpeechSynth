@@ -1,4 +1,7 @@
 function match = checksymbol(word,index,symbol,movement)
+%%match - will match a certain symbl to an action and then return match if
+%%true. This function is used to check rules for converting text into
+%%phonemes
 match = false;
 switch symbol
     case"#"
@@ -52,29 +55,29 @@ switch symbol
             end
         end
     case"'"
-        if isempty(regexp(extract(word,index),"[tsrdlznj]", 'once')) == false
+        if isempty(regexp(extract(word,index),"[tsrdlznj]", 'once')) == false % checks that a character matches the one of the string
             match = true;
         end
         if (match ==false)
             if index + movement >= 1 && index + movement <= strlength(word)
                 switch movement
                     case -1
-                        if isempty(regexp(extractBetween(word,index-1,index),"[sct]h", 'once')) == false; match = true; end
+                        if isempty(regexp(extractBetween(word,index-1,index),"[sct]h", 'once')) == false; match = true; end % checks the subseqint strings matches correctly
                     case 1
                         if isempty(regexp(extractBetween(word,index,index+1),"[sct]h", 'once')) == false; match = true; end
                 end
             end
         end
     case "^"
-        if isempty(regexp(extract(word,index),"[b-df-hj-np-vwxz]", 'once')) == false
+        if isempty(regexp(extract(word,index),"[b-df-hj-np-vwxz]", 'once')) == false %% checks if not a vowel
             match = true; 
         end
     case"+"
-        if isempty(regexp(extract(word,index),"[eiy]", 'once')) == false
+        if isempty(regexp(extract(word,index),"[eiy]", 'once')) == false % checks if not eiy
             match = true; 
         end
     case ":"
-        if isempty(regexp(extract(word,index),"[aeiouy]", 'once')) == true
+        if isempty(regexp(extract(word,index),"[aeiouy]", 'once')) == true % checks if not aeiouy
             match = true;
         end
     case"<"
@@ -82,11 +85,11 @@ switch symbol
             match = true;
         end
     case">"
-        if index == strlength(word)
+        if index == strlength(word) %% check if end of word
             match = true;
         end
     otherwise
-        if index > strlength(word)
+        if index > strlength(word) 
             match = false;
         else
         match = strcmp(extract(word,index),symbol);

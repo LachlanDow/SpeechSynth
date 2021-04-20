@@ -1,5 +1,5 @@
 classdef GlottalSourceType
-    %UNTITLED Summary of this class goes here
+    %GlottalSourceType enumaration for the glottal source type to be used
     %   Detailed explanation goes here
     enumeration
         impulsive, natural, noise

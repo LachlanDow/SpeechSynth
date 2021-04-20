@@ -1,10 +1,8 @@
 function [soundFrame] = convertToHH(soundFrame)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%convertToHH function will convert a sound to the HH equivalent of itself
+%   function lters the first formants freqency of a given vowe
 soundFrame.oralFormantBW(1) = soundFrame.oralFormantBW(1) + 300;
 soundFrame.cascadeAspirationDb = soundFrame.cascadeVoicingDb;
-%soundFrame.parallelAspirationDb = soundFrame.parallelVoicingDb;
 soundFrame.cascadeVoicingDb = 0;
-% soundFrame.parallelVoicingDb = 0;
 end
 

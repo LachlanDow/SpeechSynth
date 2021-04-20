@@ -1,11 +1,12 @@
 function [wordArray] = num2words(number)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
-numLength = (strlength(number));
+%num2words this function will convert a integer number into the word
+%equivalent
+%  the function looks at every number given and then will give the correct
+%  adjustment given the conversions that it has
 wordArray = string(missing);
 decimalPart =[];
-if contains(number,".")
-    splitNumber = split(number,".");
+if contains(number,".") %check for decimal point
+    splitNumber = split(number,"."); % split at decimal point
     wholePart = splitNumber(1);
     decimalPart = splitNumber(2);
 else 
@@ -14,7 +15,7 @@ end
     
 
 remainingLength = strlength(wholePart);
-remainder = mod(remainingLength,3);
+remainder = mod(remainingLength,3); % check the number of numbers at the start of the string eg 23,000 it is important to extract the first two
 start = true;
 wordArrayCounter = 1;
 placecounter = 1;

@@ -1,12 +1,12 @@
 classdef LpFilter1
-    %UNTITLED3 Summary of obj class goes here
-    %   Detailed explanation goes here
+    %LPFilter1 Represets a low pass filter 
+    %   given an inpuit signal will run a lowpass calculation on it
     
     properties
         sampleRate
-        a
+        a 
         b
-        y1
+        y1 % value
         passthrough
         muted
  
@@ -14,8 +14,7 @@ classdef LpFilter1
     
     methods
         function obj = LpFilter1(sampleRate)
-            %UNTITLED3 Construct an instance of obj class
-            %   Detailed explanation goes here
+            %construtor Construct an instance of obj LpFilter1
             obj.sampleRate = sampleRate;
             obj.y1 = 0;
             obj.passthrough = true;
@@ -25,8 +24,8 @@ classdef LpFilter1
         end
         
         function obj = set(obj,f,g,extraGain)
-            %METHOD1 Summary of obj method goes here
-            %   Detailed explanation goes here
+            %set sets the value for the low pass filter
+            %   checks that values are as expected - throws error if not
             %extraGain should = 1 :) 
             if (f <=0 || f >= obj.sampleRate / 2 || g <= 0 || g >=1 ||  isinf(f) || isinf(g) || isinf(extraGain) )
                 error("Invalid Filter Parametes")
@@ -39,13 +38,13 @@ classdef LpFilter1
             obj.muted = false; 
         end
         
-        function obj = setPassthrough(obj)
+        function obj = setPassthrough(obj)% turns lowpass filter into pass through mode
            obj.passthrough = true;
            obj.muted = false;
            obj.y1 = 0;
         end  
         
-        function obj = setMute(obj)
+        function obj = setMute(obj) % mutes low pass filter
            obj.passthrough = false;
            obj.muted = true;
            obj.y1 = 0;
@@ -65,6 +64,7 @@ classdef LpFilter1
             
         end
         
+        %% steps value for low-pass filter for next computation
         function [obj, y] = step(obj,x)
             if(obj.passthrough == true)
                 y = x;

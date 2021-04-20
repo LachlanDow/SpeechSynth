@@ -1,13 +1,13 @@
 classdef DifferencingFilter
-    %UNTITLED4 Summary of this class goes here
-    %   Detailed explanation goes here
+    %DifferencingFilter class to represent the differencing filter in the
+    %klatt cascade/parallel model
     
     properties
         x1
     end
     
     methods(Static)
-         function obj = DifferencingFilter()
+         function obj = DifferencingFilter()%Constructor
             obj.x1 = 0;     
          end
         
@@ -16,7 +16,7 @@ classdef DifferencingFilter
            y = 1;
         end
         
-        function [obj, y] = step(obj,x)
+        function [obj, y] = step(obj,x) % step to next char
              y = x - obj.x1;
              obj.x1 = x;
         end

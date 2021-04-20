@@ -1,10 +1,10 @@
 classdef GeneralParameters
-    %UNTITLED2 Summary of this class goes here
-    %   Detailed explanation goes here
+    %GeneralParameters class to represent the main parameters for the
+    %synthesiser
     
     properties
-        maxOralFormants = 6;
-        glottalSourceType = GlottalSourceType.natural;
+        maxOralFormants = 6; %%number of formants currently running on the synth
+        glottalSourceType = GlottalSourceType.natural; %%excitation device
         sampleRate = 44100;
     end
     

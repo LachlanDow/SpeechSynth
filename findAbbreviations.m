@@ -2,6 +2,11 @@ function [newStr] = findAbbreviations(text)
 %findAbbreviations function to locate abbreviated terms and replace them
 % with terms that the synthesizer can say
 
+
+%%should be rewritten to exit after correct case is found 
+%%loop through 2 array of strings with conversion and then replace if
+%%matchfound - then exit makes the sytem faster and more readable
+
 newStr = regexprep(text,"Mr", "mister",'ignorecase');
 newStr = regexprep(newStr,"Ms", "miz",'ignorecase');
 newStr = regexprep(newStr,"Mrs", "mizzes",'ignorecase');

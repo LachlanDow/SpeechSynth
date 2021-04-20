@@ -1,15 +1,11 @@
 function phonemes =  test(string, docMap,rules)
-%UNTITLED Summary of this function goes here
-%   Detailed explanation goes here
+%test creates phonetic transcription of input text
+%  main function for program, will combine everythinf made so far
 string = FORMAT(string);
 phonemes = word();
 %textversion = "";
 for i = 1:length(string)
-    phonemes(i).phoneWord = word2phone(string(i),docMap,rules);
-    %phonemes(i).phoneWord = join(phonemes(i).phoneWord);
-    %textversion(i) = phonemes(i).phoneWord;
+    phonemes(i).phoneWord = word2phone(string(i),docMap,rules);  
 end
-%phonemes = join(textversion, "");
-%phonemes = convertStringsToChars(phonemes);
 end
 

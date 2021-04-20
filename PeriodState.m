@@ -1,6 +1,6 @@
 classdef PeriodState
-    %UNTITLED6 Summary of this class goes here
-    %   Detailed explanation goes here
+    %PeriodState clas represents the currect state of the synthesiser 
+    %  these values are altered every period run by the generator class
     
     properties
         f0
