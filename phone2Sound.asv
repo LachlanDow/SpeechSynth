@@ -1,17 +1,11 @@
 function soundArray = phone2Sound(word,soundMap,phonemeList,durationMap)
-   initialArray = word.phoneWord;
-   conversionArray = "";
+   conversionArray = word.phoneWord;
     for i = 1:length(initialArray)
-        if(contains(initialArray(i),"/") == true)
-            unSlashed = rot90(split(initialArray(i),"/"));
-            for j = 1:length(unSlashed)
-            conversionArray(length(conversionArray) + 1 ) = unSlashed(j);  
-            end
-        else
-            conversionArray(length(conversionArray) + 1 ) = initialArray(i);  
-        end 
+        if(contains(conversionArray(i),"/") == true)
+            unSlashed = rot90(split(conversionArray(i),"/"));
+            adjustedArray = [conversionArray(1:i) unSlashed conversionArray(i-21:length(conversionArray))];   
+        end
     end
-   conversionArray  = conversionArray(2:end);
    
     i = 1;
     phonemeTracker = 1;
