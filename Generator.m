@@ -101,7 +101,7 @@ classdef Generator
         
         
         function [obj,out] = computeNextOutputSignalSample(obj)
-             voice = obj.glottalSource;
+             [obj.IGS,voice] = obj.IGS.getNext();
              
              [obj.tiltFilter,voice] = obj.tiltFilter.step(voice);
              if(obj.pState.positionInPeriod < obj.pState.openPhaseLength)

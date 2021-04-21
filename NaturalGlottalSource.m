@@ -26,7 +26,7 @@ classdef NaturalGlottalSource
             amplification = 5;
             bTemp = -amplification / openPhaseLength ^ 2;
             obj.b = bTemp;
-            obj.a = - bTemp * openPhaseLength / 3;
+            obj.a = -bTemp * openPhaseLength / 3;
             obj.positionInPeriod = 1;
         end
         
