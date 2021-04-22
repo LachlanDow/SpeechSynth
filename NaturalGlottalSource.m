@@ -23,7 +23,7 @@ classdef NaturalGlottalSource
             %   Detailed explanation goes here
             obj.openPhaseLength = openPhaseLength;
             obj.x = 0;
-            amplification = 5;
+            amplification = 2;
             bTemp = -amplification / openPhaseLength ^ 2;
             obj.b = bTemp;
             obj.a = -bTemp * openPhaseLength / 3;
