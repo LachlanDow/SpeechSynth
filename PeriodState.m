@@ -1,14 +1,14 @@
 classdef PeriodState
-    %PeriodState clas represents the currect state of the synthesiser 
+    %PeriodState class represents the currect state of the synthesiser 
     %  these values are altered every period run by the generator class
     
     properties
-        f0
-        periodLength
-        openPhaseLength
+        f0 %fundamental frequency
+        periodLength %length of glottal period from sample rate 
+        openPhaseLength % length of glottal opening in from openphase ratio of period
         
         positionInPeriod
-        lpNoise
+        lpNoise % low pass noise source
     end 
 end
 

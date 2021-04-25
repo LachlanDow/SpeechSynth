@@ -6,7 +6,7 @@ function y = performFrequencyModulation(f0,flutterLevel,time)
     else
      w = 2 * pi * time;
      a = sin(12.7 * w) + sin(7.1 * w) + sin(4.7 * w); % standard calulation from klatt synth
-     y = f0 * (1 + a * flutterLevel / 50);
+     y = f0 * (1 + a * flutterLevel / 50); %return synth approptiate value
     
     end
 end

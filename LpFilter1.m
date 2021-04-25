@@ -3,10 +3,10 @@ classdef LpFilter1
     %   given an inpuit signal will run a lowpass calculation on it
     
     properties
-        sampleRate
-        a 
-        b
-        y1 % value
+        sampleRate %of synthesiser
+        a %filter coefficients
+        b %filter coefficients
+        y1 % previous outut value 
         passthrough
         muted
  
@@ -50,19 +50,6 @@ classdef LpFilter1
            obj.y1 = 0;
         end
         
-        function [x,y] = getTransferFuncCoef(obj)
-            if(obj.passthrough == true)
-                 x = 1;
-                 y = 1;
-            elseif(obj.muted == true)
-               x = 0;
-               y = 1;
-            else 
-               x = obj.a;
-               y = [1 -obj.b];
-            end
-            
-        end
         
         %% steps value for low-pass filter for next computation
         function [obj, y] = step(obj,x)
@@ -71,7 +58,7 @@ classdef LpFilter1
             elseif(obj.muted == true)
                  y =0;
             else
-            y = obj.a * x + obj.b * obj.y1;
+            y = obj.a * x + obj.b * obj.y1; %calculation for low pass filter
             obj.y1 = y;
             
             end

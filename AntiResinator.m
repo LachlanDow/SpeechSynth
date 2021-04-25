@@ -3,25 +3,32 @@ classdef AntiResinator
     
     properties
         sampleRate
-        a
-        b
-        c
-        x1
-        x2
+        a  %filter coefficient a 
+        b  %filter coefficient b 
+        c  %filter coefficient c 
+        x1 %x[n-1], last input value
+        x2 %x[n-2], second-last input value
         passthrough
         muted 
     end
     
     methods
        function obj = AntiResinator(sampleRate)
+           %constructor for antiresonator object
             obj.sampleRate = sampleRate;
             obj.x1=0;
             obj.x2=0;
             obj.passthrough = true;
             obj.muted = false;
-        end
+       end
         
-        function obj = set(obj,f,bw)
+        
+        function obj = set(obj,f,bw) 
+            % Adjusts the filter parameters without resetting the inner state.
+            % @param f
+            %    Frequency of anti-resonator in Hz.
+            % @param bw
+            %    bandwidth of anti-resonator in Hz.
              if (f <=0 || f >= obj.sampleRate / 2 ||bw <=0 ||  isinf(f) || isinf(bw))
                 error("Invalid AntiResonator Parametes")
             end
@@ -57,26 +64,19 @@ classdef AntiResinator
             obj.x2 = 0;
         end 
         
-        function [x,y] = getTransferFuncCoef(obj)
-            if(obj.passthrough)
-                 x = 1;
-                 y = 1;
-            elseif(obj.muted)
-               x = o;
-               y = 1;
-            else 
-               x = [obj.a obj.b obj.c];
-               y = 1;
-            end
-        end
-        
+      
         function [obj,y] = step(obj,x)
+            % Performs a filter step.
+            % @param x
+            %    Input signal value.
+            % @returns
+            %    Output signal value.
             if obj.passthrough == true
                 y = x;
             elseif obj.muted == true
                 y = 0;
             else 
-                y = obj.a * x + obj.b * obj.x1 + obj.c * obj.x2;
+                y = obj.a * x + obj.b * obj.x1 + obj.c * obj.x2; %anti-resonator calculation a * x[n] + b * x[n-1] + c * x[n-2]
                 obj.x2 = obj.x1;
                 obj.x1 = x;
             end       

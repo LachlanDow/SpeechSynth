@@ -3,24 +3,22 @@ classdef NaturalGlottalSource
     %   Detailed explanation goes here
     
     properties
-        x
-        a
-        b
-        openPhaseLength
-        positionInPeriod
+        x %current outputvalue
+        a %filter coefficients 
+        b %filter coefficients
+        openPhaseLength % open phaseration and sample rate provideds open phase length
+        positionInPeriod %current period position
     end
     
     methods
         function obj = NaturalGlottalSource(number)
-            %UNTITLED Construct an instance of this class
-            %   Detailed explanation goes here
+            %NaturalGlottalSource Construct an instance of this class
             number = 0;
             obj  = startPeriod(obj,number);
         end
         
         function obj = startPeriod(obj,openPhaseLength)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            %startPeriod starts a new period for the natual glottal source
             obj.openPhaseLength = openPhaseLength;
             obj.x = 0;
             amplification = 2;
@@ -31,14 +29,13 @@ classdef NaturalGlottalSource
         end
         
         function [obj, y] = getNext(obj)
-            %METHOD1 Summary of this method goes here
-            %   Detailed explanation goes here
+            %getNext gets the next output vaule from the source
             obj.positionInPeriod = obj.positionInPeriod +1;
             if (obj.positionInPeriod  >= obj.openPhaseLength) 
                 obj.x = 0;
             else
-                obj.a = obj.a + obj.b;
-                obj.x = obj.x + obj.a;   
+                obj.a = obj.a + obj.b; % first calculation
+                obj.x = obj.x + obj.a;   %second calculation
             end 
             y = obj.x;
        end

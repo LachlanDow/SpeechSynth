@@ -19,9 +19,9 @@ remainder = mod(remainingLength,3); % check the number of numbers at the start o
 start = true;
 wordArrayCounter = 1;
 placecounter = 1;
-while remainingLength > 0
+while remainingLength > 0 % loop until end of number
     
-        if remainder ~= 0 && start == true
+        if remainder ~= 0 && start == true %% this if statement accounts for numbers that don't divide well into 3 
             resultantstring = extractBetween(wholePart,1,remainder);
             wordArray(wordArrayCounter) = wholenumberConvert(resultantstring);
             if (remainingLength > 6)
@@ -36,7 +36,7 @@ while remainingLength > 0
             wordArrayCounter = wordArrayCounter + 2;
             placecounter = placecounter + remainder;
             remainingLength = remainingLength - remainder;
-        else
+        else % rest of number
             resultantstring = extractBetween(wholePart,placecounter,placecounter + 2);
             wordArray(wordArrayCounter) = wholenumberConvert(resultantstring);
              if (remainingLength > 6)
@@ -51,13 +51,13 @@ while remainingLength > 0
              remainingLength = remainingLength - 3;
         end
 end
-if isempty(decimalPart) == 0
+if isempty(decimalPart) == 0 %% translate decimal part
     wordArray(wordArrayCounter - 1) = "point";
     for i = 1:strlength(decimalPart)
         decimalNumber = extractBetween(decimalPart,i,i);
         wordArray(wordArrayCounter) = wholenumberConvert(decimalNumber);
         wordArrayCounter = wordArrayCounter + 1;
-end
+    end
     wordArray = strjoin(wordArray);
 end
 

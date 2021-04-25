@@ -3,7 +3,7 @@ classdef DifferencingFilter
     %klatt cascade/parallel model
     
     properties
-        x1
+        x1 %previous value of differncing filter
     end
     
     methods(Static)
