@@ -1,4 +1,6 @@
 function output = sentenceToSound(string)
+%converts a sentence to a soundby combine functions already constructed
+%and their returned values
 vars = load('recentVars.mat');
 sentence = test(string,vars.docMap,vars.rules);
 output =[];
@@ -11,7 +13,7 @@ for i = 1:length(sentence)
    %end
    
    outputTemp = generateSound(vars.mParms,dataFrameTemp);
-   output = horzcat(output,outputTemp,pause);
+   output = horzcat(output,outputTemp,pause); %concatenates the final sounds for each word
 end
 
 

@@ -10,8 +10,8 @@ classdef GeneralParameters
     
     methods
         function obj = GeneralParamters(obj)
-            %UNTITLED2 Construct an instance of this class
-            %   Detailed explanation goes here
+            %GeneralParameters Construct an instance of this class
+            %   standard number of formants 6
            obj.maxOralFormants = 6;
         end
         

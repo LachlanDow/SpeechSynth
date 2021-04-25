@@ -1,15 +1,15 @@
 classdef Resonator
-    %UNTITLED Summary of obj class goes here
+    %Resonator Summary of obj class goes here
     %   Detailed explanation goes here
     
     properties
         sampleRate
-        a
-        b
-        c
-        y1
-        y2
-        r
+        a % fitler coefficient a
+        b % fitler coefficient a
+        c % fitler coefficient a
+        y1 %y[n-1], last output value
+        y2 %y[n-2], second-last output value
+        r % temp val for calculation
         passthrough
         muted
     end
@@ -22,6 +22,13 @@ classdef Resonator
             obj.muted = false;            
         end
         
+        % Adjusts the filter parameters without resetting the inner state.
+        % @param f
+        %    Frequency of resonator in Hz. May be 0 for LP filtering.
+        % @param bw
+        %    Bandwidth of resonator in Hz.
+        % @param dcGain
+        %    DC gain level.
         function obj = set(obj,f,bw,dcGain)
             
             if (f <0 || f >= obj.sampleRate / 2 ||bw <=0 || dcGain <=0 ||  isinf(f) || isinf(bw) || isinf(dcGain) )
@@ -63,21 +70,12 @@ classdef Resonator
         end
         
         
-        function [x,y] = getTransferFuncCoef(obj)
-            if(obj.passthrough)
-                 x = 1;
-                 y = 1;
-            elseif(obj.muted)
-               x = o;
-               y = 1;
-            else 
-               x = obj.a;
-               y = [1 -obj.b -obj.c];
-            end
-            
-        end
-
         function [obj, y] = step(obj,x)
+             % Performs a filter step.
+             % @param x
+             %    Input signal value.
+             % @returns
+             %    Output signal value
             if (obj.passthrough == 1)
                 y = x;
             elseif (obj.muted == 1)

@@ -5,35 +5,35 @@ classdef FrameParms
     properties
    duration         %Frame Duration(sec)
    f0               %fundamental Frequency
-   flutterLevel
-   openPhaseRatio 
-   breathinessDb
-   tiltDb
-   gainDb
-   agcRmsLevel %RootMean square level
-   nasalFormantFreq
-   nasalFormantBW
-   oralFormantFreq
-   oralFormantBW
+   flutterLevel     %F0 flutter level generally 0.25
+   openPhaseRatio   %relative length of the open phase of the glottis
+   breathinessDb    %breathiness of voicing in Db amplify or reduce
+   tiltDb           %spectral tilt for glottal source in dB
+   gainDb           %overall gain of system
+   agcRmsLevel      %RootMean square level
+   nasalFormantFreq %nasal formant frequency in Hz
+   nasalFormantBW   %nasal formant Bandwidth in Hz
+   oralFormantFreq  %oral formant frequency in Hz
+   oralFormantBW    %oral formant bandwidth in Hz
    
    %Parameters for the cascade synth
-   cascadeEnabled
-   cascadeVoicingDb
-   cascadeAspirationDb
-   cascadeAspirationMod
-   nasalAntiformantFreq
-   nasalAntiformantBW
+   cascadeEnabled   %toggles cascade on or off
+   cascadeVoicingDb %voicing amplification for cascade branch
+   cascadeAspirationDb %aspiration level in dB
+   cascadeAspirationMod %Modualtion factor for apiration in cascade
+   nasalAntiformantFreq %nasal anti-formant frequency
+   nasalAntiformantBW %nasal anti-formant bandwidth
    
     %Parameters for the parallel synth
-   parallelEnabled                   
-   parallelVoicingDb                 
-   parallelAspirationDb  
-   parallelAspirationMod          
-   fricationDb                 
-   fricationMod                      
-   parallelBypassDb                   
-   nasalFormantDb                     
-   oralFormantDb                      
+   parallelEnabled     %toggles parallel on/off              
+   parallelVoicingDb     %amplification for parallel branch in dB           
+   parallelAspirationDb  %amplification of parallel aspiratoin in dB
+   parallelAspirationMod          %parallel aspiration modulation between 0 and 1
+   fricationDb                 %frication for parallel branch in dB
+   fricationMod                %frication modulation for prallel branch
+   parallelBypassDb            %bypass level for parallel branch       
+   nasalFormantDb              %nasal formant decibel level for parallel branch
+   oralFormantDb               %oral formant frequencies for parallel branch
     end
     
    methods

@@ -1,7 +1,9 @@
 function soundArray = phone2Sound(word,soundMap,phonemeList,durationMap)
-%% function to conver from phonemes tsound frames
+%% function to conver from phonemes to sound frames
    initialArray = word.phoneWord;
    conversionArray = "";
+   
+   %%loop will extract words split with "/"
     for i = 1:length(initialArray)
         if(contains(initialArray(i),"/") == true)
             unSlashed = rot90(split(initialArray(i),"/"));
@@ -14,6 +16,7 @@ function soundArray = phone2Sound(word,soundMap,phonemeList,durationMap)
     end
    conversionArray  = conversionArray(2:end);
    
+   %loops for each phoneme and translate to sound frame equivelent
     i = 1;
     phonemeTracker = 1;
     while i <= length(conversionArray)
@@ -30,6 +33,7 @@ function soundArray = phone2Sound(word,soundMap,phonemeList,durationMap)
                 phonemeTracker = phonemeTracker + 1;
             end
         else 
+            %%unneeded now but kept incase of errors in original code
             tempDipthong = split(conversionArray(i),"/");
             for j = 1:length(tempDipthong)
                 soundArray(phonemeTracker) = Sound(phonemeList(soundMap(tempDipthong(j))),durationMap(tempDipthong(j)),20);

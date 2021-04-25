@@ -1,5 +1,5 @@
 function [inputFrames] = interpolateFrame(startFrame,endFrame, durationStart,transitionFrames)
-
+%% interpolateFrame, this function will take two input frames and translate between them to blend them togethe
 
 f0 = 150;
 inputFrames = FrameParms(f0,1,1);
@@ -11,6 +11,8 @@ end
 for i = 1:transitionFrames
     inputFrames(i) = FrameParms(f0,1,1);
 end
+
+%%This section gets the blended values
 f0 = linspace(startFrame.f0(1),endFrame.f0(1),transitionFrames);
 
 f1 = linspace(startFrame.oralFormantFreq(1),endFrame.oralFormantFreq(1),transitionFrames);
@@ -57,6 +59,7 @@ fricationMod = linspace(startFrame.fricationMod,endFrame.fricationMod,transition
 parallelBypassDb = linspace(startFrame.parallelBypassDb,endFrame.parallelBypassDb,transitionFrames);
 nasalFormantDb = linspace(startFrame.nasalFormantDb,endFrame.nasalFormantDb,transitionFrames);
 
+%%this generates the frames for the interpolated values
 for j = 1:transitionFrames
     inputFrames(j).f0(1) = f0(j);
     

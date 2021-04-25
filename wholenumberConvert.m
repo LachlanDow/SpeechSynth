@@ -1,10 +1,11 @@
 function [outputnumber] = wholenumberConvert(number)
+%%function to conver a 1 to 3 digit number to it's word equivalent
     numberLength = strlength(number);
     wordArray = string(missing);
     teenNum = false;
     for i = 1:numberLength
         if numberLength == 3 && i == 1
-            switch extractBetween(number,i,i)
+            switch extractBetween(number,i,i)% hundereds
                 case "0"
                   wordArray(i) = " ";
               case "1"
@@ -28,10 +29,10 @@ function [outputnumber] = wholenumberConvert(number)
             end
         end
         if ((numberLength > 2 && i == 2) ||(numberLength == 2 && i == 1))
-            switch extractBetween(number,i,i)
+            switch extractBetween(number,i,i)% tens
                case "0"
                   wordArray(i) = " ";
-              case "1"
+              case "1" %this is teens
                   switch extractBetween(number,i,numberLength)
                       case "11"
                           wordArray(i) = "Eleven";
@@ -72,7 +73,7 @@ function [outputnumber] = wholenumberConvert(number)
             end
         end 
         if (((numberLength > 2 && i ==3) || (numberLength == 2 && i ==2) || (numberLength == 1 && i ==1)) && teenNum == false)
-          switch  extractBetween(number,i,i)
+          switch  extractBetween(number,i,i)%digits
               case "0"
                   wordArray(i) = "";
               case "1"
@@ -97,6 +98,6 @@ function [outputnumber] = wholenumberConvert(number)
         end
     end
     
-      outputnumber = strjoin(wordArray);
+      outputnumber = strjoin(wordArray); %join all strings
 end
 

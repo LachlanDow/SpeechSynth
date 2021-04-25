@@ -1,6 +1,7 @@
 classdef CurrentFrameParameters
-    %UNTITLED5 Summary of this class goes here
-    %   Detailed explanation goes here
+    %CurrentFrameParameters this class represents the currently active
+    %frame parameters in their linear from for the synthesiser to use in
+    %caclulations.
     
     properties
         %general Parameters
